@@ -2,12 +2,13 @@
 #include <stdio.h>
 #include <string.h>
 
+// matriz de caracteres que representa o tabuleiro
 char tabuleiro[3][3] = { {'1', '2', '3'},
                          {'4', '5', '6'},
                          {'7', '8', '9'}
                       };
 
-
+// immpressão personalizada do tabuleiro
 void exibir_tabuleiro() {
     printf("\n");
     printf(" %c | %c | %c \n", tabuleiro[0][0], tabuleiro[0][1], tabuleiro[0][2]);
