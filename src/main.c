@@ -10,10 +10,16 @@
 int main() {
     int xsoma = 0, ysoma = 0;
     int x, y;
-
+    int escolha;
     char jogador = 'X';
     int jogadas = 0;
-
+    int valor;
+    int t;
+    ssize_t n;
+    int eUm, eDois;
+    char vencedor;
+    struct input_event ev;
+    
     const char *dev = "/dev/input/event0"; 
     int fd = open(dev, O_RDONLY);
     if (fd == -1) {
@@ -21,21 +27,19 @@ int main() {
         return 1;
     }
 
-    struct input_event ev;
 
     printf("Bem-vindo ao Jogo da Velha!\n");
     exibir_tabuleiro();
-    int valor = 0;
+    valor = 0;
     int *dados_sw = &valor;
-    int t = 0;
+    t = 0;
     SW_open();
     SW_read(dados_sw);
     // Loop infinito para receber as coordenadas
     while (1) {
     SW_read(dados_sw);
-      int escolha;
-      ssize_t n = read(fd, &ev, sizeof(ev));
-      //ev.value=0;
+      
+      n = read(fd, &ev, sizeof(ev));
 
       if(*dados_sw==1){
       if (n == (ssize_t)-1) {
@@ -108,8 +112,8 @@ int main() {
       } else if (xsoma > MAX_QUADRANTE_2 && xsoma <= MAX_QUADRANTE_3 && ysoma > MAX_QUADRANTE_2 && ysoma <= MAX_QUADRANTE_3) {
         escolha = 9;
       }
-      int eUm = escolha+1;
-      int eDois = escolha-1;
+      eUm = escolha+1;
+      eDois = escolha-1;
       if(escolha == eUm || escolha ==eDois || ev.value ==1){
         system("clear");
         exibir_tabuleiro();
@@ -131,7 +135,7 @@ int main() {
         printf("Quadrante %d\n", escolha);
 
         // Verifica se houve um vencedor
-        char vencedor = verificar_vencedor();
+        vencedor = verificar_vencedor();
         if (vencedor != ' ') {
             printf("Parabéns! O jogador %c venceu!\n", vencedor);
             break;
