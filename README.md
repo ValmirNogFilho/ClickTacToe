@@ -130,6 +130,12 @@ A biblioteca input.h no Linux é responsável por lidar com dispositivos de entr
 Foi utilizada no sistema uma chave HH do kit de desenvolvimento De1-SoC para que o usuário possa pausar o jogo. Para realizar a leitura dos valores digitados nas chaves HH pertencentes ao kit de desenvolvimento De1-SoC, foram utilizados recursos disponibilizados da placa para o sistema operacional. A biblioteca intelfpgaup oferece acesso aos drivers dos dispositivos nativos da placa, informando em conjunto arquivos de extensão “.h” com os cabeçalhos das suas funções disponibilizadas e documentadas. Para fazer a inclusão da biblioteca, se insere no início do código C a expressão “#include <intelfpgaup/XX.h>, substituindo os X’s pelo nome do driver a ser acessado. 
 Para a leitura das chaves HH, foi incluído o driver “SW.h”. A biblioteca oferece funções de abertura, leitura e fechamento do arquivo relativo ao driver. A função de leitura retorna o número de bytes lidos e atribui ao ponteiro para int inserido como seu parâmetro um valor binário, que representa, do bit de menor ao de maior importância, as chaves HH da chave CH0 à CH9 (as 10 chaves HH da De1-SoC). Chaves HH em alto são representadas com o valor 1, e as baixas em 0.
 
+<p align="center"><strong>Cabeçalho das funções do módulo SW da intelfpgaup</strong></p>
+<p align="center">
+  <img src="Imagens/header.png" width = "400" />
+</p>
+<p align="center"><strong>Fonte: Using Linux With ARM-A9</strong></p>
+
 Para a atribuição das bibliotecas da intelfpgaup ao sistema, deve ser adicionada uma instrução ao comando de compilação presente no Makefile. Ao final do comando, é adicionada a cflag “-intelfpgaup” para que o linker do GCC anexe as bibliotecas solicitadas ao projeto.
 
 ## Resultados e demonstração dos testes
