@@ -8,6 +8,37 @@ O projeto visa a criação de um sistema de uma versão do jogo da velha, integr
 * Elaboração do código-fonte em C
 * Utilização dos dispositivos periféricos da placa para controle do jogo e opções associadas (como pausar e retornar  à partida)
 
+Descrição dos equipamentos e softwares utilizados:
+
+- kit de desenvolvimento de1-soc:
+
+O kit de desenvolvimento De1-SoC, da Altera University Program, é uma plataforma programável que combina uma FPGA System on Chip (SoC) da Altera com um processador dual-core Cortex A9 e os periféricos que envolvem a porção do Hard Processor System (HPS), sendo ideal para a prototipação de projetos que envolvam a integração entre software e hardware, dada a sua flexibilidade e seu alto desempenho. Devido a essa aplicabilidade, foi utilizado para o projeto.
+
+* Nano
+O GNU Nano trata-se de um editor de texto simples, incluso nativamente em sistemas operacionais Linux e que é executado no terminal de comandos do sistema operacional. Foi um dos softwares de edição de texto utilizados para a codificação do projeto.
+
+* Replit
+O Replit é um ambiente de desenvolvimento online que permite a edição de textos em conjunto com colegas de trabalho simultaneamente. Permite a codificação dos arquivos e a execução dos códigos no shell incluso na plataforma. Foi utilizado para criação e armazenamento de protótipos do projeto, auxiliando o trabalho em grupo.
+
+* Linguagem C
+A linguagem escolhida para a codificação do projeto foi C, devido a sua portabilidade para computadores que não possuam recursos tecnológicos avançados o suficiente para softwares mais pesados. Além disso, seu nível de abstração mais próximo da máquina e suas bibliotecas-padrão que auxiliam a interação com o sistema operacional, agem em conjunto para tornar mais prática a manipulação dos drivers dos dispositivos usados no sistema.
+
+* Compilador GCC
+
+	O GNU Compiler Collection (GCC) é um compilador de código aberto disponibilizado gratuitamente para várias linguagens de programação. Foi instalado e utilizado no sistema operacional do kit de desenvolvimento De1-SoC, para a compilação dos códigos C escritos pelo grupo.
+
+- Arquitetura do ARM Cortex-A9 e relacionamento com componentes da placa:
+
+O processador Cortex-A9 800MHz MPCore é projetado para implementações segundo a Instruction Set Architecture (ISA) ARMv7. Suporta multiprocessamento por ser dual-core.
+Recebe majoritariamente instruções por palavras de comprimento de 32 bits.
+	
+A placa é composta pela porção FPGA, com o dispositivo Altera Cyclone® V SE 5CSEMA5F31C6N, e pela porção HPS, com o processador Cortex A9 e com memória RAM 1GB DDR3. Ambas porções também dispõem de diversos periféricos de entrada e saída de dados, cujo os utilizados serão futuramente explicitados nesse documento.
+
+A comunicação dos componentes da FPGA com as instruções solicitadas pelo código C que são executadas no processador se dá pelas FPGA Bridges. O processador solicita ou envia dados para a FPGA por meio das pontes HPS-to-FPGA e lightweight HPS-to-FPGA (para dados de menor banda), realizando operações de leitura ou escrita ao consultar os elementos de memória da FPGA e, quando necessário, trazer os dados para a memória do HPS.
+
+Os dispositivos de entrada e saída conectados à plataforma De1-SoC podem ser acessados na memória, por serem mapeados em diretórios específicos (explicados na seção dos drivers), sendo acessíveis perante a permissão concedida pelo sistema operacional Linux.
+
+
 
 ## Metodologia
 - Criação do tabuleiro:
