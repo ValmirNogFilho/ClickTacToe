@@ -5,8 +5,8 @@ Os jogos eletrônicos têm desempenhado um papel crucial na evolução da tecnol
 O projeto visa a criação de um sistema de uma versão do jogo da velha, integrado com a locomoção dos quadrantes do tabuleiro a partir de um mouse. O projeto foi elaborado no kit de desenvolvimento De1-SoC, bem como seus periféricos inclusos.
 
 - Os requisitos do projeto são:
--> Elaboração do código-fonte em C
--> Utilização dos dispositivos periféricos da placa para controle do jogo e opções associadas (como pausar e retornar  à partida)
+* Elaboração do código-fonte em C
+* Utilização dos dispositivos periféricos da placa para controle do jogo e opções associadas (como pausar e retornar  à partida)
 
 
 ## Metodologia
@@ -29,16 +29,16 @@ Verifica as linhas:
 
   Para garantir o funcionamento correto do tabuleiro, foi estabelecida uma delimitação de área em cada célula. Isso permite determinar, com base nos valores de coordenadas x e y, qual célula está sendo selecionada em determinado momento. Dessa forma as células possuem: 
 
-  + Área das células:
-     -Célula 1: x de 0 a 100, y de 0 a 100
-     -Célula 2: x de 101 a 200, y de 0 a 100
-     -Célula 3: x de 201 a 300, y de 0 a 100
-     -Célula 4: x de 0 a 100, y de 101 a 200
-     -Célula 5: x de 101 a 200, y de 101 a 200
-     -Célula 6: x de 201 a 300, y de 101 a 200
-     -Célula 7: x de 0 a 100, y de 201 a 300
-     -Célula 8: x de 101 a 200, y de 201 a 300
-     -Célula 9: x de 201 a 300, y de 201 a 300
+# Área das células:
+* Célula 1: x de 0 a 100, y de 0 a 100
+* Célula 2: x de 101 a 200, y de 0 a 100
+* Célula 3: x de 201 a 300, y de 0 a 100
+* Célula 4: x de 0 a 100, y de 101 a 200
+* Célula 5: x de 101 a 200, y de 101 a 200
+* Célula 6: x de 201 a 300, y de 101 a 200
+* Célula 7: x de 0 a 100, y de 201 a 300
+* Célula 8: x de 101 a 200, y de 201 a 300
+* Célula 9: x de 201 a 300, y de 201 a 300
 
 - Abaixo é uma figura representativa dessa delimitação:
 
@@ -68,6 +68,28 @@ A última camada, é a responsável pela função do dispositivo USB específico
 
 A imagem a seguir resume todos os conceitos já ditos até aqui:
 
+### Funcionamento do Mouse:
+O kit de desenvolvimento fornece interfaces host USB 2.0 de 2 portas usando o controlador SMSC USB3300 e 2 portas controlador de hub, por meio de uma dessas portas que será conectada ao mouse para atender a necessidade do projeto. A princípio é importante trazer à tona alguns conceitos que são fundamentais para melhor entendimento de como se dá esta conexão USB. A definição de interfaces Host será o elemento inicial abordado para entendimento.
+Quando é feita a conexão de um mouse no computador, é necessário que exista um USB Host, que no caso seria o próprio computador, fornecendo energia e gerenciando a comunicação com o USB Client, que seria o mouse, ele possui um papel fundamental no processo de comunicação USB, como o controle e gerenciamento dos dispositivos conectados. Para que exista a conexão do dispositivo conectado ao USB existe um controlador USB que emite regularmente, um sinal de início de quadro (SOF - Start of Frame). Todos os dispositivos estão constantemente ligados a linha de comunicação. Quando o controlador envia a informação com o endereço correspondente ao do dispositivo conectado, este interpreta o pacote, analisa o tipo de sinal e, com base nessa análise, executa as ações apropriadas. Essa captação e análise de sinais está relacionada ao protocolo USB.
+Uma parte essencial do protocolo USB é a definição dos padrões de transação de pacotes, adaptados para diferentes tipos de transferências. Isso assegura que a informação seja enviada de maneira precisa e confiável. Além disso, o protocolo gerencia o fluxo de dados para prevenir excessos ou insuficiências nos buffers, garantindo a eficiência do sistema. O protocolo USB possui uma abordagem na organização de bits e bytes. Os bits são transmitidos do menos ao mais significativo, e os campos de múltiplos bytes são interpretados e transferidos pelo barramento em ordem do bit menos significativo para o mais significativo. Isso é crucial para garantir que os dados sejam interpretados corretamente pelos dispositivos conectados.
+
+- The USB Core no Linux:
+Ao longo das atualizações do kernel, ocorreu a integração de um suporte para USB ao Linux, e esse suporte tem sido aprimorado continuamente desde então. Além de adaptar-se a cada nova geração de USB, o sistema recebe suporte para diversos controladores host e a inclusão de novos drivers para dispositivos periféricos. O Linux é capaz não apenas de ser executado em dispositivos USB, mas também nos hosts responsáveis pelo controle desses dispositivos.
+             
+Dentro do Linux, há um subsistema responsável por reconhecer e operar dispositivos conectados ao USB, conhecido como "The USB Core", que opera com uma API dedicada para facilitar o suporte a dispositivos USB e controladores de host. Gerindo a função de fornecer uma camada de abstração que isola as particularidades de hardware ou dispositivos específicos, estabelecendo um conjunto padronizado de estruturas de dados, macros e funções, para interagir com o sistema operacional, seria a mesma ideia de responsabilidade que um drive teria. O núcleo USB consiste em conjuntos de instruções que são compartilhadas entre todos os drivers de dispositivos USB e os drivers de controlador de host. Essas instruções são estruturadas em duas camadas distintas dentro da API: uma camada superior e uma camada inferior. Na figura X é possível observar como ocorre essa estruturação no sistema operacional.
+
+- Subsistema de Entrada no Linux:
+O subsistema de entrada do Linux consiste em um conjunto de drivers que desempenham um papel fundamental no suporte aos dispositivos de entrada, como teclados, mouses e outros periféricos. Esses drivers atuam como mediadores entre o hardware e o sistema operacional, convertendo os sinais gerados pelos dispositivos em eventos compreensíveis para o sistema. Por exemplo, quando um usuário pressiona uma tecla ou movimenta o mouse, esses drivers capturam essas ações e as transmitem para o núcleo do sistema operacional. Em seguida, esses eventos são processados pelos aplicativos para realizar as operações correspondentes. Essa camada de abstração é fundamental para garantir a compatibilidade e a funcionalidade de uma ampla variedade de dispositivos de entrada no ambiente Linux, proporcionando uma experiência de usuário coesa e eficiente. Por meio dos arquivos relacionados aos dispositivos periféricos conectados via USB o subsistema de entrada do linux fornece uma interpretação para as informações que são passadas por meio destes, na figura X é possível perceber como seria a lógica de simplificação que ocorre entre o espaço do usuário, que seria propriamente os códigos feitos, o kernel do linux e as informações que são lidas, aquelas enviadas por meio do hardware conectado.
+
+- Driver no Mouse:
+Simplificadamente um driver seria um software que diz ao sistema operacional e a outros softwares como se comunicar com um hardware. O que está sendo utilizado para captar as informações do mouse via USB no problema é o que se chama de subsistema de entrada, que é um conjunto de drivers que oferecem um suporte para os dispositivos de entrada no linux. Esse conjunto de drivers basicamente conversam com o hardware e fornecem eventos (pressionamentos de teclas, movimentos do mouse, através da entrada USB) para o módulo de entrada. Como as informações recebidas através do mouse são inúmeros valores codificados em binário o drive vai funcionar como o meio responsável por capturar esses dados e designar diferentes ações que podem ser associadas a eles, possibilitando uma integração mais simples entre o hardware que o USB está conectado e o sistema operacional utilizado. 
+Como os drivers traduzem os sinais do mouse para comandos compreensíveis pelo sistema operacional.
+Os dados passados pelo mouse estão todos representados em valores binários, onde o conjunto de dados serão constantemente enviados pelo mouse para o sistema operacional, estes dados são passados por meio de um arquivo relacionado ao periférico conectado, por exemplo, é possível visualizar o conjunto de informações pelo próprio terminal do linux, inclusive escolhendo em que formato os dados serão visualizados, na figura X é possível perceber o arquivo correspondente ao mouse no terminal em formato hexadecimal.
+Os dados presentes nos arquivos de entrada do mouse desempenham um papel fundamental no sistema operacional, fornecendo informações para a interação entre o dispositivo e o computador. De acordo com a documentação do kernel e as definições em input.h, esses dados são estruturados em eventos, capturando cada movimento ou clique realizado. Cada evento é cuidadosamente organizado em uma estrutura específica, contendo detalhes como tempo, tipo, código e valor. Essa organização minuciosa permite que o sistema operacional interprete com precisão as ações do mouse, garantindo uma resposta rápida e eficiente às interações do usuário.
+
+- Acesso aos dispositivos específicos no Linux:
+No Linux, os dispositivos são arquivos no diretório /dev/ cada dispositivo está relacionado a um arquivo específico, quando se faz a conexão de um dispositivo um arquivo para o dispositivo é criado dinamicamente e pode ser acessado no diretório / dev/ isso é possível graças a um programa de espaço de usuário chamado udev, um gerenciador de dispositivos dinâmico para o kernel Linux. Sempre que um dispositivo é adicionado ou removido, o kernel comunica a mudança para o udev .Então, o udev escuta esses uevents do kernel. Para cada evento, systemd-udevd (o daemon udev ) executa instruções específicas definidas para lidar com cada dispositivo.
+
 - Visualizando as camadas Sistemas USB e ‘’Client software:
   É possível visualizar a camada do Sistema USB + o ‘’Client software’’ com o seguinte comando linux: “udevadm info -a -p $(udevadm info -q path -n /dev/input/event0)”. Esse comando traça do driver de nível mais baixo (isso é, o host controller driver) até o ‘’client software’’ (‘’driver’s hid’’ e geração de eventos por eles). A saída são os dispositivos e os drivers por camadas, exemplo:
 
@@ -83,32 +105,10 @@ looking at parent device '/devices/soc/ffb40000.usb':
 	DRIVERS==""
 	ATTRS{driver_override}=="(null)"
  
- -Que descreve o subsistema ‘’plataform’’ onde está o driver para o controlador. Como a saída é muito grande, foi proposto a descrição por texto de toda organização dos drivers:
+- Que descreve o subsistema ‘’plataform’’ onde está o driver para o controlador. Como a saída é muito grande, foi proposto a descrição por texto de toda organização dos drivers:
 
 Na última camada, tem os controladores USB, como eles são instâncias do Synopsys® DesignWare® Cores USB 2.0 Hi-Speed
 On-The-Go (DWC_otg) controller, eles precisam do driver desse controlador, que é o dwc2, sendo a primeira parte do host controller driver. No próximo subsistema, isso é, o ‘’usb’’, o driver de mesmo nome (usb) é responsável por complementar o dwc2 como host controller driver. Esse mesmo driver também lida com as configurações e leituras de descritores(campos nos dispositivos que guardam informações sobre eles) e da própria memória da porta usb host, por exemplo. Ainda nesse subsistema ‘’usb’’, tem a primeira camada da classe HID de dispositivos, o driver ‘’usbhid’’ juntamente com o driver ‘’hid-generic’’ do subsistema ‘’hid’’ são responsáveis por traduzir os dados para o sistema operacional, além de gerar eventos que serão escrito em arquivos do subsistema input, que é o que usamos no projeto.
-
-###Funcionamento do Mouse:
-O kit de desenvolvimento fornece interfaces host USB 2.0 de 2 portas usando o controlador SMSC USB3300 e 2 portas controlador de hub, por meio de uma dessas portas que será conectada ao mouse para atender a necessidade do projeto. A princípio é importante trazer à tona alguns conceitos que são fundamentais para melhor entendimento de como se dá esta conexão USB. A definição de interfaces Host será o elemento inicial abordado para entendimento.
-Quando é feita a conexão de um mouse no computador, é necessário que exista um USB Host, que no caso seria o próprio computador, fornecendo energia e gerenciando a comunicação com o USB Client, que seria o mouse, ele possui um papel fundamental no processo de comunicação USB, como o controle e gerenciamento dos dispositivos conectados. Para que exista a conexão do dispositivo conectado ao USB existe um controlador USB que emite regularmente, um sinal de início de quadro (SOF - Start of Frame). Todos os dispositivos estão constantemente ligados a linha de comunicação. Quando o controlador envia a informação com o endereço correspondente ao do dispositivo conectado, este interpreta o pacote, analisa o tipo de sinal e, com base nessa análise, executa as ações apropriadas. Essa captação e análise de sinais está relacionada ao protocolo USB.
-Uma parte essencial do protocolo USB é a definição dos padrões de transação de pacotes, adaptados para diferentes tipos de transferências. Isso assegura que a informação seja enviada de maneira precisa e confiável. Além disso, o protocolo gerencia o fluxo de dados para prevenir excessos ou insuficiências nos buffers, garantindo a eficiência do sistema. O protocolo USB possui uma abordagem na organização de bits e bytes. Os bits são transmitidos do menos ao mais significativo, e os campos de múltiplos bytes são interpretados e transferidos pelo barramento em ordem do bit menos significativo para o mais significativo. Isso é crucial para garantir que os dados sejam interpretados corretamente pelos dispositivos conectados.
-
--The USB Core no Linux:
-Ao longo das atualizações do kernel, ocorreu a integração de um suporte para USB ao Linux, e esse suporte tem sido aprimorado continuamente desde então. Além de adaptar-se a cada nova geração de USB, o sistema recebe suporte para diversos controladores host e a inclusão de novos drivers para dispositivos periféricos. O Linux é capaz não apenas de ser executado em dispositivos USB, mas também nos hosts responsáveis pelo controle desses dispositivos.
-             
-Dentro do Linux, há um subsistema responsável por reconhecer e operar dispositivos conectados ao USB, conhecido como "The USB Core", que opera com uma API dedicada para facilitar o suporte a dispositivos USB e controladores de host. Gerindo a função de fornecer uma camada de abstração que isola as particularidades de hardware ou dispositivos específicos, estabelecendo um conjunto padronizado de estruturas de dados, macros e funções, para interagir com o sistema operacional, seria a mesma ideia de responsabilidade que um drive teria. O núcleo USB consiste em conjuntos de instruções que são compartilhadas entre todos os drivers de dispositivos USB e os drivers de controlador de host. Essas instruções são estruturadas em duas camadas distintas dentro da API: uma camada superior e uma camada inferior. Na figura X é possível observar como ocorre essa estruturação no sistema operacional.
-
--Subsistema de Entrada no Linux:
-O subsistema de entrada do Linux consiste em um conjunto de drivers que desempenham um papel fundamental no suporte aos dispositivos de entrada, como teclados, mouses e outros periféricos. Esses drivers atuam como mediadores entre o hardware e o sistema operacional, convertendo os sinais gerados pelos dispositivos em eventos compreensíveis para o sistema. Por exemplo, quando um usuário pressiona uma tecla ou movimenta o mouse, esses drivers capturam essas ações e as transmitem para o núcleo do sistema operacional. Em seguida, esses eventos são processados pelos aplicativos para realizar as operações correspondentes. Essa camada de abstração é fundamental para garantir a compatibilidade e a funcionalidade de uma ampla variedade de dispositivos de entrada no ambiente Linux, proporcionando uma experiência de usuário coesa e eficiente. Por meio dos arquivos relacionados aos dispositivos periféricos conectados via USB o subsistema de entrada do linux fornece uma interpretação para as informações que são passadas por meio destes, na figura X é possível perceber como seria a lógica de simplificação que ocorre entre o espaço do usuário, que seria propriamente os códigos feitos, o kernel do linux e as informações que são lidas, aquelas enviadas por meio do hardware conectado.
-
--Driver no Mouse:
-Simplificadamente um driver seria um software que diz ao sistema operacional e a outros softwares como se comunicar com um hardware. O que está sendo utilizado para captar as informações do mouse via USB no problema é o que se chama de subsistema de entrada, que é um conjunto de drivers que oferecem um suporte para os dispositivos de entrada no linux. Esse conjunto de drivers basicamente conversam com o hardware e fornecem eventos (pressionamentos de teclas, movimentos do mouse, através da entrada USB) para o módulo de entrada. Como as informações recebidas através do mouse são inúmeros valores codificados em binário o drive vai funcionar como o meio responsável por capturar esses dados e designar diferentes ações que podem ser associadas a eles, possibilitando uma integração mais simples entre o hardware que o USB está conectado e o sistema operacional utilizado. 
-Como os drivers traduzem os sinais do mouse para comandos compreensíveis pelo sistema operacional.
-Os dados passados pelo mouse estão todos representados em valores binários, onde o conjunto de dados serão constantemente enviados pelo mouse para o sistema operacional, estes dados são passados por meio de um arquivo relacionado ao periférico conectado, por exemplo, é possível visualizar o conjunto de informações pelo próprio terminal do linux, inclusive escolhendo em que formato os dados serão visualizados, na figura X é possível perceber o arquivo correspondente ao mouse no terminal em formato hexadecimal.
-Os dados presentes nos arquivos de entrada do mouse desempenham um papel fundamental no sistema operacional, fornecendo informações para a interação entre o dispositivo e o computador. De acordo com a documentação do kernel e as definições em input.h, esses dados são estruturados em eventos, capturando cada movimento ou clique realizado. Cada evento é cuidadosamente organizado em uma estrutura específica, contendo detalhes como tempo, tipo, código e valor. Essa organização minuciosa permite que o sistema operacional interprete com precisão as ações do mouse, garantindo uma resposta rápida e eficiente às interações do usuário.
-
--Acesso aos dispositivos específicos no Linux:
-No Linux, os dispositivos são arquivos no diretório /dev/ cada dispositivo está relacionado a um arquivo específico, quando se faz a conexão de um dispositivo um arquivo para o dispositivo é criado dinamicamente e pode ser acessado no diretório / dev/ isso é possível graças a um programa de espaço de usuário chamado udev, um gerenciador de dispositivos dinâmico para o kernel Linux. Sempre que um dispositivo é adicionado ou removido, o kernel comunica a mudança para o udev .Então, o udev escuta esses uevents do kernel. Para cada evento, systemd-udevd (o daemon udev ) executa instruções específicas definidas para lidar com cada dispositivo.
 
 - Conexão do Mouse ao Kit de Desenvolvimento DE1-SoC:
 Como o mouse é conectado ao Kit de Desenvolvimento DE1-SoC através de uma porta USB:
@@ -116,17 +116,16 @@ Para conectar um mouse ao Kit de Desenvolvimento DE1-SoC, é necessário utiliza
 - Como o Kit de Desenvolvimento DE1-SoC reconhece e interage com o mouse conectado:
 O Kit de Desenvolvimento DE1-SoC reconhece e interage com o mouse conectado por meio do controlador USB integrado ao sistema. Quando um mouse é conectado à porta USB do DE1-SoC, o controlador USB detecta o dispositivo e comunica essa detecção ao sistema operacional em execução no kit. O sistema operacional, por sua vez, reconhece o mouse como um dispositivo de entrada e configura os drivers necessários para interpretar os movimentos e cliques do mouse. Os dispositivos de entrada podem ser visualizados e lidos no ambiente Linux assim como os arquivos, o dispositivo de entrada aparece no diretório /dev/input. 
 
--Integração do Mouse ao Jogo da Velha:
--Como o mouse será utilizado para interagir com o jogo da velha desenvolvido:
+- Integração do Mouse ao Jogo da Velha:
+
 O mouse será utilizado para realizar as principais funcionalidades do jogo da velha, deslocar-se pelo tabuleiro e selecionar, a partir do clique no botão, um quadrante de interesse do usuário.
--Como os movimentos do mouse serão mapeados para a escolha da posição de marcação no tabuleiro do jogo:
 O mouse possui uma relação de movimentos relativos, que referem-se a mudança e variação de posição ao longo dos eixos x e y (considerando um plano cartesiano R2), a lógica associada a esse deslocamento ao longo dos eixos baseia-se na mudança contínua de pontos (x,y) ao longo de um possível deslocamento do mouse. O envio dos dados referentes a essa movimentação relativa não se dá de forma imediata, ou seja, considerando o movimento completo ao longo dos eixos, mas sim de forma gradativa enviando aos poucos os dados numéricos relacionados a um deslocamento completo que é feito, é possível observar como funciona essa variação na visualização do terminal na figura X, logo abaixo.
 
 Diante dessa situação a necessidade de juntar esses valores para evidenciar onde estava acontecendo o movimento do mouse é nítida, aproveitando-se dessa ocasião que foi pensada a solução para dividir e mapear cada espaço(quadrante) relacionado ao jogo da velha. Com isso foi utilizada uma lógica de somatório dos valores recebidos pelo mouse, que representam a variação do deslocamento pelos eixos x e y, e colocado um limite para cada mudança de quadrante, a escolha de valores para representar diretamente uma possível mudança reflete diretamente no quão grande deverá ser o deslocamento do mouse na superfície. Por exemplo, caso o valor escolhido para o deslocamento a direita, considerando o eixo x nesse caso, que pode ser a mudança de quadrante do 1 para o 2 for igual a 70, o somatório realizado a partir dos valores que são enviados pelo mouse deve resultar em 70 para que seja feita a mudança de quadrante, caso o valor passe de 70 o quadrante resultante será o 3, visto que os valores são limitados para cada mudança ao longo do tabuleiro.
--Como os cliques do mouse serão interpretados como confirmação de jogadas:
+- Como os cliques do mouse serão interpretados como confirmação de jogadas:
 A biblioteca input.h no Linux é responsável por lidar com dispositivos de entrada, como teclados e mouses. Quando um clique do mouse é realizado, uma informação é gerada pelo hardware do mouse e enviado para o sistema operacional. Esse sinal foi então capturado pelo kernel do Linux, que utiliza drivers específicos para dispositivos de entrada para interpretar e processar os dados recebidos. A biblioteca input.h fornece uma interface de programação que permite acessar e manipular eventos de entrada, como cliques de mouse, através de funções e estruturas de dados definidas nela. Isso permite no Linux a captura e resposta aos cliques do mouse de forma adequada, como mover o cursor, clicar em botões ou realizar outras ações dependendo do contexto.
 
--Integração das chaves HH no sistema:
+- Integração das chaves HH no sistema:
 
 Foi utilizada no sistema uma chave HH do kit de desenvolvimento De1-SoC para que o usuário possa pausar o jogo. Para realizar a leitura dos valores digitados nas chaves HH pertencentes ao kit de desenvolvimento De1-SoC, foram utilizados recursos disponibilizados da placa para o sistema operacional. A biblioteca intelfpgaup oferece acesso aos drivers dos dispositivos nativos da placa, informando em conjunto arquivos de extensão “.h” com os cabeçalhos das suas funções disponibilizadas e documentadas. Para fazer a inclusão da biblioteca, se insere no início do código C a expressão “#include <intelfpgaup/XX.h>, substituindo os X’s pelo nome do driver a ser acessado. 
 Para a leitura das chaves HH, foi incluído o driver “SW.h”. A biblioteca oferece funções de abertura, leitura e fechamento do arquivo relativo ao driver. A função de leitura retorna o número de bytes lidos e atribui ao ponteiro para int inserido como seu parâmetro um valor binário, que representa, do bit de menor ao de maior importância, as chaves HH da chave CH0 à CH9 (as 10 chaves HH da De1-SoC). Chaves HH em alto são representadas com o valor 1, e as baixas em 0.
