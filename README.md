@@ -5,10 +5,10 @@ Os jogos eletrônicos têm desempenhado um papel crucial na evolução da tecnol
 O projeto visa a criação de um sistema de uma versão do jogo da velha, integrado com a locomoção dos quadrantes do tabuleiro a partir de um mouse. O projeto foi elaborado no kit de desenvolvimento De1-SoC, bem como seus periféricos inclusos.
 
 - Os requisitos do projeto são:
-* Elaboração do código-fonte em C
-* Utilização dos dispositivos periféricos da placa para controle do jogo e opções associadas (como pausar e retornar  à partida)
+	- Elaboração do código-fonte em C
+	- Utilização dos dispositivos periféricos da placa para controle do jogo e opções associadas (como pausar e retornar  à partida)
 
-Descrição dos equipamentos e softwares utilizados:
+## Descrição dos equipamentos e softwares utilizados:
 
 - kit de desenvolvimento de1-soc:
 
