@@ -29,25 +29,25 @@ Verifica as linhas:
 
   Para garantir o funcionamento correto do tabuleiro, foi estabelecida uma delimitação de área em cada célula. Isso permite determinar, com base nos valores de coordenadas x e y, qual célula está sendo selecionada em determinado momento. Dessa forma as células possuem: 
 
-  + Área das células:
-     -Célula 1: x de 0 a 100, y de 0 a 100
-     -Célula 2: x de 101 a 200, y de 0 a 100
-     -Célula 3: x de 201 a 300, y de 0 a 100
-     -Célula 4: x de 0 a 100, y de 101 a 200
-     -Célula 5: x de 101 a 200, y de 101 a 200
-     -Célula 6: x de 201 a 300, y de 101 a 200
-     -Célula 7: x de 0 a 100, y de 201 a 300
-     -Célula 8: x de 101 a 200, y de 201 a 300
-     -Célula 9: x de 201 a 300, y de 201 a 300
+# Área das células:
+*Célula 1: x de 0 a 100, y de 0 a 100
+*Célula 2: x de 101 a 200, y de 0 a 100
+*Célula 3: x de 201 a 300, y de 0 a 100
+*Célula 4: x de 0 a 100, y de 101 a 200
+*Célula 5: x de 101 a 200, y de 101 a 200
+*Célula 6: x de 201 a 300, y de 101 a 200
+*Célula 7: x de 0 a 100, y de 201 a 300
+*Célula 8: x de 101 a 200, y de 201 a 300
+*Célula 9: x de 201 a 300, y de 201 a 300
 
-- Abaixo é uma figura representativa dessa delimitação:
+-Abaixo é uma figura representativa dessa delimitação:
 
-- Captura de dados do mouse:
+-Captura de dados do mouse:
   A captura dos dados dos eventos do mouse é realizada quando o programa abre o arquivo correspondente onde esses eventos são registrados. Esse arquivo é geralmente encontrado em `/dev/input/` e tem um nome como "eventX", onde X é um número que identifica o dispositivo específico. Uma vez que o arquivo é aberto usando a função `open()` do sistema, o programa recebe um descritor de arquivo que pode ser usado para ler os eventos.
 Após a abertura do arquivo, ocorre uma leitura contínua dos dados do dispositivo para uma estrutura de eventos definida na biblioteca `linux/input.h`, chamada de `struct input_event`. Essa estrutura contém informações detalhadas sobre os eventos do mouse.
 Com base nos dados contidos na estrutura `struct input_event`, o programa pode facilmente extrair informações relevantes, como o deslocamento do mouse nas coordenadas x e y.
 
-- Dinâmica do jogo no código:
+-Dinâmica do jogo no código:
   O jogo começa com o primeiro jogador, representado pelo "X", e é controlado usando variáveis que capturam o deslocamento do mouse. Esse deslocamento é adicionado às variáveis relacionadas às coordenadas x e y. Essas coordenadas são restritas a valores entre 0 e 300 para garantir que não ultrapassem os limites do tabuleiro, conforme visto na seção de Delimitação do tabuleiro.
 Em seguida, uma série de verificações são realizadas. Primeiro, verifica-se se as coordenadas estão dentro dos limites do tabuleiro. Em seguida, as coordenadas x e y capturadas pelo movimento do mouse são convertidas na célula correspondente do tabuleiro.
 A segunda parte das verificações ocorre quando há um evento de clique esquerdo do mouse. Nesse momento, verifica-se se a célula está vazia para que a peça do jogador possa ser colocada. Se a célula já estiver ocupada, a peça do jogador não será inserida. No entanto, se a célula estiver vazia, ela será preenchida com a peça do jogador atual. Após isso, é feita uma verificação para determinar se o jogador venceu o jogo. Se o jogador venceu, uma mensagem de parabéns é exibida para o vencedor; caso contrário, é a vez do próximo jogador.
@@ -55,40 +55,20 @@ Esse processo continua até que um jogador vença ou até que ocorram mais de 9 
 
 ## Conexão USB (Hardware/Software)
 
-- Sobre a configuração de um dispositivo-host:
+-Sobre a configuração de um dispositivo-host:
   Quando um dispositivo usb é conectado num host, esse host irá enviar ‘’setup requests’’ para o dispositivo, o dispositivo reporta os atributos deles, através de descritores, e o host, através do processo de ‘’bus enumeration’’ configura o dispositivo com base na leitura de seus descritores (pelo endpoint 0). No caso da passagem de dados do mouse para o host, são usados endpoints (parte física de um dispositivo que transmite dados) do tipo interrupt nas transações de dados. Esses Endpoints interrupts são monitorados periodicamente pelo host e foram escolhidos pois os dados são enviados regularmente, sendo o que melhor se encaixa no contexto mouse-host.
 
-- Sobre o sistema geral do USB:
+-Sobre o sistema geral do USB:
   Todo o processo de passagem dos dados USB pode ser divididos como mostrado a seguir, por camadas hardware-software:
 A primeira camada, de baixo para cima, é a camada física propriamente dita, ela que provê a conexão entre o host e o dispositivo. A camada do meio(abrigaria uma API do Linux, USB core por exemplo), é a camada onde os softwares que lidam com o USB  ficam, ela que vai lidar com operações genéricas no usb, como ler/escolher as melhores configurações host/device.
 A última camada, é a responsável pela função do dispositivo USB específico,se for um mouse, por exemplo, os cliques no dispositivo físico, seriam interpretados como dados pelo ‘’client software’’(que nesse contexto seria o driver do próprio mouse).
 
-- O fluxo de comunicação é o seguinte:
+-O fluxo de comunicação é o seguinte:
   O ‘’software client’’ (driver do mouse) geralmente solicita que seja movido os dados entre o buffer no lado do host e os endpoints nos dispositivos (dá-se o nome de pipe a essa relação). O ‘’host controller’’(a placa DE1SOC+sistema operacional) é quem inicia essa troca e gera atividade para movimento de dados. De maneira mais específica, o processo ocorre assim: para ocorrer uma transação a nível de barramento é necessário que o driver do mouse consuma ou gere dados para uma função específica do dispositivo através de endpoints, para isso ele tem que fazer uma ligação com o sistema USB(USB core), gerando um “interrupt request”(IRP), que é quando o software gera um sinal para movimentar dados entre o software e um endpoint. Por sua vez, o USB core faz uma chamada para o ‘’host controller driver’’(uma abstração do host controller) que por fim transformará os dados do IRP em transações, que são as entregas dos dados para um endpoint, que o Host controller usará para criar uma atividade a nível de barramento. O processo pode ser feito de maneira reversa.
 
 A imagem a seguir resume todos os conceitos já ditos até aqui:
 
-- Visualizando as camadas Sistemas USB e ‘’Client software:
-  É possível visualizar a camada do Sistema USB + o ‘’Client software’’ com o seguinte comando linux: “udevadm info -a -p $(udevadm info -q path -n /dev/input/event0)”. Esse comando traça do driver de nível mais baixo (isso é, o host controller driver) até o ‘’client software’’ (‘’driver’s hid’’ e geração de eventos por eles). A saída são os dispositivos e os drivers por camadas, exemplo:
-
-looking at parent device '/devices/soc/ffb40000.usb':
-	KERNELS=="ffb40000.usb"
-	SUBSYSTEMS=="platform"
-	DRIVERS=="dwc2"
-	ATTRS{driver_override}=="(null)"
-
-  looking at parent device '/devices/soc':
-	KERNELS=="soc"
-	SUBSYSTEMS=="platform"
-	DRIVERS==""
-	ATTRS{driver_override}=="(null)"
- 
- -Que descreve o subsistema ‘’plataform’’ onde está o driver para o controlador. Como a saída é muito grande, foi proposto a descrição por texto de toda organização dos drivers:
-
-Na última camada, tem os controladores USB, como eles são instâncias do Synopsys® DesignWare® Cores USB 2.0 Hi-Speed
-On-The-Go (DWC_otg) controller, eles precisam do driver desse controlador, que é o dwc2, sendo a primeira parte do host controller driver. No próximo subsistema, isso é, o ‘’usb’’, o driver de mesmo nome (usb) é responsável por complementar o dwc2 como host controller driver. Esse mesmo driver também lida com as configurações e leituras de descritores(campos nos dispositivos que guardam informações sobre eles) e da própria memória da porta usb host, por exemplo. Ainda nesse subsistema ‘’usb’’, tem a primeira camada da classe HID de dispositivos, o driver ‘’usbhid’’ juntamente com o driver ‘’hid-generic’’ do subsistema ‘’hid’’ são responsáveis por traduzir os dados para o sistema operacional, além de gerar eventos que serão escrito em arquivos do subsistema input, que é o que usamos no projeto.
-
-###Funcionamento do Mouse:
+### Funcionamento do Mouse:
 O kit de desenvolvimento fornece interfaces host USB 2.0 de 2 portas usando o controlador SMSC USB3300 e 2 portas controlador de hub, por meio de uma dessas portas que será conectada ao mouse para atender a necessidade do projeto. A princípio é importante trazer à tona alguns conceitos que são fundamentais para melhor entendimento de como se dá esta conexão USB. A definição de interfaces Host será o elemento inicial abordado para entendimento.
 Quando é feita a conexão de um mouse no computador, é necessário que exista um USB Host, que no caso seria o próprio computador, fornecendo energia e gerenciando a comunicação com o USB Client, que seria o mouse, ele possui um papel fundamental no processo de comunicação USB, como o controle e gerenciamento dos dispositivos conectados. Para que exista a conexão do dispositivo conectado ao USB existe um controlador USB que emite regularmente, um sinal de início de quadro (SOF - Start of Frame). Todos os dispositivos estão constantemente ligados a linha de comunicação. Quando o controlador envia a informação com o endereço correspondente ao do dispositivo conectado, este interpreta o pacote, analisa o tipo de sinal e, com base nessa análise, executa as ações apropriadas. Essa captação e análise de sinais está relacionada ao protocolo USB.
 Uma parte essencial do protocolo USB é a definição dos padrões de transação de pacotes, adaptados para diferentes tipos de transferências. Isso assegura que a informação seja enviada de maneira precisa e confiável. Além disso, o protocolo gerencia o fluxo de dados para prevenir excessos ou insuficiências nos buffers, garantindo a eficiência do sistema. O protocolo USB possui uma abordagem na organização de bits e bytes. Os bits são transmitidos do menos ao mais significativo, e os campos de múltiplos bytes são interpretados e transferidos pelo barramento em ordem do bit menos significativo para o mais significativo. Isso é crucial para garantir que os dados sejam interpretados corretamente pelos dispositivos conectados.
@@ -110,16 +90,35 @@ Os dados presentes nos arquivos de entrada do mouse desempenham um papel fundame
 -Acesso aos dispositivos específicos no Linux:
 No Linux, os dispositivos são arquivos no diretório /dev/ cada dispositivo está relacionado a um arquivo específico, quando se faz a conexão de um dispositivo um arquivo para o dispositivo é criado dinamicamente e pode ser acessado no diretório / dev/ isso é possível graças a um programa de espaço de usuário chamado udev, um gerenciador de dispositivos dinâmico para o kernel Linux. Sempre que um dispositivo é adicionado ou removido, o kernel comunica a mudança para o udev .Então, o udev escuta esses uevents do kernel. Para cada evento, systemd-udevd (o daemon udev ) executa instruções específicas definidas para lidar com cada dispositivo.
 
-- Conexão do Mouse ao Kit de Desenvolvimento DE1-SoC:
+-Visualizando as camadas Sistemas USB e ‘’Client software:
+  É possível visualizar a camada do Sistema USB + o ‘’Client software’’ com o seguinte comando linux: “udevadm info -a -p $(udevadm info -q path -n /dev/input/event0)”. Esse comando traça do driver de nível mais baixo (isso é, o host controller driver) até o ‘’client software’’ (‘’driver’s hid’’ e geração de eventos por eles). A saída são os dispositivos e os drivers por camadas, exemplo:
+
+looking at parent device '/devices/soc/ffb40000.usb':
+	KERNELS=="ffb40000.usb"
+	SUBSYSTEMS=="platform"
+	DRIVERS=="dwc2"
+	ATTRS{driver_override}=="(null)"
+
+  looking at parent device '/devices/soc':
+	KERNELS=="soc"
+	SUBSYSTEMS=="platform"
+	DRIVERS==""
+	ATTRS{driver_override}=="(null)"
+ 
+-Que descreve o subsistema ‘’plataform’’ onde está o driver para o controlador. Como a saída é muito grande, foi proposto a descrição por texto de toda organização dos drivers:
+
+Na última camada, tem os controladores USB, como eles são instâncias do Synopsys® DesignWare® Cores USB 2.0 Hi-Speed
+On-The-Go (DWC_otg) controller, eles precisam do driver desse controlador, que é o dwc2, sendo a primeira parte do host controller driver. No próximo subsistema, isso é, o ‘’usb’’, o driver de mesmo nome (usb) é responsável por complementar o dwc2 como host controller driver. Esse mesmo driver também lida com as configurações e leituras de descritores(campos nos dispositivos que guardam informações sobre eles) e da própria memória da porta usb host, por exemplo. Ainda nesse subsistema ‘’usb’’, tem a primeira camada da classe HID de dispositivos, o driver ‘’usbhid’’ juntamente com o driver ‘’hid-generic’’ do subsistema ‘’hid’’ são responsáveis por traduzir os dados para o sistema operacional, além de gerar eventos que serão escrito em arquivos do subsistema input, que é o que usamos no projeto.
+
+-Conexão do Mouse ao Kit de Desenvolvimento DE1-SoC:
 Como o mouse é conectado ao Kit de Desenvolvimento DE1-SoC através de uma porta USB:
 Para conectar um mouse ao Kit de Desenvolvimento DE1-SoC, é necessário utilizar uma porta USB disponível no kit. Por meio do cabo USB do mouse, ele é conectado diretamente a uma das portas USB disponíveis no DE1-SoC. Uma vez conectado, o mouse se torna um dispositivo de entrada que permite ao usuário interagir de forma intuitiva com o sistema em execução no kit. Essa conexão USB permite que o mouse transmita sinais de movimento e cliques para o sistema, possibilitando a navegação em interfaces gráficas, o controle de cursores e outras interações baseadas em mouse, facilitando assim o desenvolvimento e a utilização do sistema embarcado.
-- Como o Kit de Desenvolvimento DE1-SoC reconhece e interage com o mouse conectado:
+-Como o Kit de Desenvolvimento DE1-SoC reconhece e interage com o mouse conectado:
 O Kit de Desenvolvimento DE1-SoC reconhece e interage com o mouse conectado por meio do controlador USB integrado ao sistema. Quando um mouse é conectado à porta USB do DE1-SoC, o controlador USB detecta o dispositivo e comunica essa detecção ao sistema operacional em execução no kit. O sistema operacional, por sua vez, reconhece o mouse como um dispositivo de entrada e configura os drivers necessários para interpretar os movimentos e cliques do mouse. Os dispositivos de entrada podem ser visualizados e lidos no ambiente Linux assim como os arquivos, o dispositivo de entrada aparece no diretório /dev/input. 
 
 -Integração do Mouse ao Jogo da Velha:
--Como o mouse será utilizado para interagir com o jogo da velha desenvolvido:
+
 O mouse será utilizado para realizar as principais funcionalidades do jogo da velha, deslocar-se pelo tabuleiro e selecionar, a partir do clique no botão, um quadrante de interesse do usuário.
--Como os movimentos do mouse serão mapeados para a escolha da posição de marcação no tabuleiro do jogo:
 O mouse possui uma relação de movimentos relativos, que referem-se a mudança e variação de posição ao longo dos eixos x e y (considerando um plano cartesiano R2), a lógica associada a esse deslocamento ao longo dos eixos baseia-se na mudança contínua de pontos (x,y) ao longo de um possível deslocamento do mouse. O envio dos dados referentes a essa movimentação relativa não se dá de forma imediata, ou seja, considerando o movimento completo ao longo dos eixos, mas sim de forma gradativa enviando aos poucos os dados numéricos relacionados a um deslocamento completo que é feito, é possível observar como funciona essa variação na visualização do terminal na figura X, logo abaixo.
 
 Diante dessa situação a necessidade de juntar esses valores para evidenciar onde estava acontecendo o movimento do mouse é nítida, aproveitando-se dessa ocasião que foi pensada a solução para dividir e mapear cada espaço(quadrante) relacionado ao jogo da velha. Com isso foi utilizada uma lógica de somatório dos valores recebidos pelo mouse, que representam a variação do deslocamento pelos eixos x e y, e colocado um limite para cada mudança de quadrante, a escolha de valores para representar diretamente uma possível mudança reflete diretamente no quão grande deverá ser o deslocamento do mouse na superfície. Por exemplo, caso o valor escolhido para o deslocamento a direita, considerando o eixo x nesse caso, que pode ser a mudança de quadrante do 1 para o 2 for igual a 70, o somatório realizado a partir dos valores que são enviados pelo mouse deve resultar em 70 para que seja feita a mudança de quadrante, caso o valor passe de 70 o quadrante resultante será o 3, visto que os valores são limitados para cada mudança ao longo do tabuleiro.
