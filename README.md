@@ -117,7 +117,7 @@ Verifica as linhas:
 <p align="center">
   <img src="Imagens/limite_tabuleiro.jpg" width = "400" />
 </p>
-<p align="center"><strong>Fonte:Próprios Autores 
+<p align="center"><strong>Fonte: Próprios Autores 
 </strong></p>
 
 - Captura de dados do mouse:
@@ -235,6 +235,13 @@ O Kit de Desenvolvimento DE1-SoC reconhece e interage com o mouse conectado por 
 
 O mouse será utilizado para realizar as principais funcionalidades do jogo da velha, deslocar-se pelo tabuleiro e selecionar, a partir do clique no botão, um quadrante de interesse do usuário.
 O mouse possui uma relação de movimentos relativos, que referem-se a mudança e variação de posição ao longo dos eixos x e y (considerando um plano cartesiano R2), a lógica associada a esse deslocamento ao longo dos eixos baseia-se na mudança contínua de pontos (x,y) ao longo de um possível deslocamento do mouse. O envio dos dados referentes a essa movimentação relativa não se dá de forma imediata, ou seja, considerando o movimento completo ao longo dos eixos, mas sim de forma gradativa enviando aos poucos os dados numéricos relacionados a um deslocamento completo que é feito, é possível observar como funciona essa variação na visualização do terminal na figura X, logo abaixo.
+
+<p align="center"><strong>Dados enviados pelo mouse para movimentos do mouse.</strong></p>
+<p align="center">
+  <img src="Imagens/dados_enviados.jpeg" width = "600" />
+</p>
+<p align="center"><strong>Fonte: Próprios autores.
+</strong></p>
 
 Diante dessa situação a necessidade de juntar esses valores para evidenciar onde estava acontecendo o movimento do mouse é nítida, aproveitando-se dessa ocasião que foi pensada a solução para dividir e mapear cada espaço(quadrante) relacionado ao jogo da velha. Com isso foi utilizada uma lógica de somatório dos valores recebidos pelo mouse, que representam a variação do deslocamento pelos eixos x e y, e colocado um limite para cada mudança de quadrante, a escolha de valores para representar diretamente uma possível mudança reflete diretamente no quão grande deverá ser o deslocamento do mouse na superfície. Por exemplo, caso o valor escolhido para o deslocamento a direita, considerando o eixo x nesse caso, que pode ser a mudança de quadrante do 1 para o 2 for igual a 70, o somatório realizado a partir dos valores que são enviados pelo mouse deve resultar em 70 para que seja feita a mudança de quadrante, caso o valor passe de 70 o quadrante resultante será o 3, visto que os valores são limitados para cada mudança ao longo do tabuleiro.
 - Como os cliques do mouse serão interpretados como confirmação de jogadas:
