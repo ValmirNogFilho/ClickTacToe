@@ -60,7 +60,7 @@ Os dispositivos de entrada e saída conectados à plataforma De1-SoC podem ser a
   
 <p align="center"><strong>Figura X representativa do tabuleiro do jogo da velha numerado. </strong></p>
 <p align="center">
-  <img src="Imagens/tabuleiro_jogo.png" width = "400" />
+  <img src="Imagens/tabuleiro_jogo.jpg" width = "400" />
 </p>
 <p align="center"><strong>Fonte:Próprios Autores 
 </strong></p>
@@ -92,7 +92,7 @@ Verifica as linhas:
   
 <p align="center"><strong>Representação do tabuleiro proposto </strong></p>
 <p align="center">
-  <img src="Imagens/limite_tabuleiro.png" width = "400" />
+  <img src="Imagens/limite_tabuleiro.jpg" width = "400" />
 </p>
 <p align="center"><strong>Fonte:Próprios Autores 
 </strong></p>
