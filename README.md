@@ -267,7 +267,11 @@ Para a leitura das chaves HH, foi incluído o driver “SW.h”. A biblioteca of
 
 Para a atribuição das bibliotecas da intelfpgaup ao sistema, deve ser adicionada uma instrução ao comando de compilação presente no Makefile. Ao final do comando, é adicionada a cflag “-intelfpgaup” para que o linker do GCC anexe as bibliotecas solicitadas ao projeto.
 
-## Resultados e demonstração dos testes
+## Resultados e conclusão
+
+O projeto desenvolvido cumpriu objetivos determinados, com a programação de um jogo da velha, feito na linguagem C para um processador de arquitetura ARM, aplicando na placa DE1-SoC e compreendendo a utilização do sistema operacional linux. Diversos desafios surgiram ao longo do desenvolvimento e foram resolvidos, com um destaque para a utilização do mouse conectado a DE1-SoC, dada a dificuldade em utilizar os dados que são captados do mouse da melhor maneira possível.
+
+Segue abaixo alguns gifs correspondentes a testes feitos:
 
 - Situação de vitória no jogo:
   
@@ -305,8 +309,6 @@ Para a atribuição das bibliotecas da intelfpgaup ao sistema, deve ser adiciona
 <p align="center"><strong>Fonte:Próprios Autores
 </strong></p>
 
-
-## Conclusão
 
 ## Referências
 https://embetronicx.com/linux-device-driver-tutorials/
