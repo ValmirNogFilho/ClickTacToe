@@ -34,16 +34,23 @@ Recebe majoritariamente instruções por palavras de comprimento de 32 bits.
 	
 A placa é composta pela porção FPGA, com o dispositivo Altera Cyclone® V SE 5CSEMA5F31C6N, e pela porção HPS, com o processador Cortex A9 e com memória RAM 1GB DDR3. Ambas porções também dispõem de diversos periféricos de entrada e saída de dados, cujo os utilizados serão futuramente explicitados nesse documento.
 
+<p align="center"><strong>Componentes da De1-Soc. Os que estão no quadrante cinza pertencem ao HPS, e os azuis, ao FPGA. </strong></p>
+<p align="center">
+  <img src="Imagens/perifericos_de1soc.png" width = "400" />
+</p>
+<p align="center"><strong>Fonte: Manual do kit de desenvolvimento De1-SoC
+</strong></p>
+
+A comunicação dos componentes da FPGA com as instruções solicitadas pelo código C que são executadas no processador se dá pelas FPGA Bridges. O processador solicita ou envia dados para a FPGA por meio das pontes HPS-to-FPGA e lightweight HPS-to-FPGA (para dados de menor banda), realizando operações de leitura ou escrita ao consultar os elementos de memória da FPGA e, quando necessário, trazer os dados para a memória do HPS.
+
+Os dispositivos de entrada e saída conectados à plataforma De1-SoC podem ser acessados na memória, por serem mapeados em diretórios específicos (explicados na seção dos drivers), sendo acessíveis perante a permissão concedida pelo sistema operacional Linux.
+
 <p align="center"><strong>Dispositivos periféricos utilizados do kit de desenvolvimento De1-SoC</strong></p>
 <p align="center">
   <img src="Imagens/perifericos_de1soc.png" width = "600" />
 </p>
 <p align="center"><strong>Fonte: manual do kit de desenvolvimento De1-SoC
 </strong></p>
-
-A comunicação dos componentes da FPGA com as instruções solicitadas pelo código C que são executadas no processador se dá pelas FPGA Bridges. O processador solicita ou envia dados para a FPGA por meio das pontes HPS-to-FPGA e lightweight HPS-to-FPGA (para dados de menor banda), realizando operações de leitura ou escrita ao consultar os elementos de memória da FPGA e, quando necessário, trazer os dados para a memória do HPS.
-
-Os dispositivos de entrada e saída conectados à plataforma De1-SoC podem ser acessados na memória, por serem mapeados em diretórios específicos (explicados na seção dos drivers), sendo acessíveis perante a permissão concedida pelo sistema operacional Linux.
 
 
 
