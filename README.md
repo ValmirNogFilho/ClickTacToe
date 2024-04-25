@@ -57,10 +57,13 @@ Os dispositivos de entrada e saída conectados à plataforma De1-SoC podem ser a
 ## Metodologia
 - Criação do tabuleiro:
   Para criar o tabuleiro do jogo da velha, foi utilizada uma matriz de caracteres de tamanho 3x3, onde cada célula foi numerada de 1 a 9. Essa abordagem foi implementada para facilitar a visualização do jogador e ajudá-lo a identificar a localização das células.
-
-Figura X representativa do tabuleiro do jogo da velha numerado.
-
-Fonte:
+  
+<p align="center"><strong>Figura X representativa do tabuleiro do jogo da velha numerado. </strong></p>
+<p align="center">
+  <img src="Imagens/tabuleiro_jogo.png" width = "400" />
+</p>
+<p align="center"><strong>Fonte:Próprios Autores 
+</strong></p>
 
 - Verificar vencedor:
   Para determinar o vencedor, foi criada uma função que inspeciona o estado atual do tabuleiro e realiza três tipos de verificações: nas linhas, colunas e diagonais. Essa função examina todas as possibilidades de vitória e ao identificar uma sequência de 3 peças iguais em qualquer direção, declara que o jogo foi vencido. Abaixo pode-se ver como as verificações são feitas:
@@ -86,6 +89,13 @@ Verifica as linhas:
 * Célula 9: x de 201 a 300, y de 201 a 300
 
 - Abaixo é uma figura representativa dessa delimitação:
+  
+<p align="center"><strong>Representação do tabuleiro proposto </strong></p>
+<p align="center">
+  <img src="Imagens/limite_tabuleiro.png" width = "400" />
+</p>
+<p align="center"><strong>Fonte:Próprios Autores 
+</strong></p>
 
 - Captura de dados do mouse:
   A captura dos dados dos eventos do mouse é realizada quando o programa abre o arquivo correspondente onde esses eventos são registrados. Esse arquivo é geralmente encontrado em `/dev/input/` e tem um nome como "eventX", onde X é um número que identifica o dispositivo específico. Uma vez que o arquivo é aberto usando a função `open()` do sistema, o programa recebe um descritor de arquivo que pode ser usado para ler os eventos.
