@@ -36,7 +36,7 @@ A placa é composta pela porção FPGA, com o dispositivo Altera Cyclone® V SE 
 
 <p align="center"><strong>Componentes da De1-Soc. Os que estão no quadrante cinza pertencem ao HPS, e os azuis, ao FPGA. </strong></p>
 <p align="center">
-  <img src="Imagens/perifericos_de1soc.png" width = "400" />
+  <img src="Imagens/componentes_de1soc.png" width = "400" />
 </p>
 <p align="center"><strong>Fonte: Manual do kit de desenvolvimento De1-SoC
 </strong></p>
@@ -105,10 +105,26 @@ Esse processo continua até que um jogador vença ou até que ocorram mais de 9 
 
 - Sobre o sistema geral do USB:
   Todo o processo de passagem dos dados USB pode ser divididos como mostrado a seguir, por camadas hardware-software:
+  
+  <p align="center"><strong>Camadas da conexão USB. </strong></p>
+<p align="center">
+  <img src="Imagens/conexao_usb_geral" width = "400" />
+</p>
+<p align="center"><strong>Fonte: Universal Serial Bus Specification Revision 2.0
+</strong></p>
+
 A primeira camada, de baixo para cima, é a camada física propriamente dita, ela que provê a conexão entre o host e o dispositivo. A camada do meio(abrigaria uma API do Linux, USB core por exemplo), é a camada onde os softwares que lidam com o USB  ficam, ela que vai lidar com operações genéricas no usb, como ler/escolher as melhores configurações host/device.
 A última camada, é a responsável pela função do dispositivo USB específico,se for um mouse, por exemplo, os cliques no dispositivo físico, seriam interpretados como dados pelo ‘’client software’’(que nesse contexto seria o driver do próprio mouse).
 
 - O fluxo de comunicação é o seguinte:
+  
+  <p align="center"><strong>Fluxo de dados USB. </strong></p>
+<p align="center">
+  <img src="Imagens/fluxo_dados_usb.png" width = "400" />
+</p>
+<p align="center"><strong>Fonte: Universal Serial Bus Specification Revision 2.0
+</strong></p>
+  
   O ‘’software client’’ (driver do mouse) geralmente solicita que seja movido os dados entre o buffer no lado do host e os endpoints nos dispositivos (dá-se o nome de pipe a essa relação). O ‘’host controller’’(a placa DE1SOC+sistema operacional) é quem inicia essa troca e gera atividade para movimento de dados. De maneira mais específica, o processo ocorre assim: para ocorrer uma transação a nível de barramento é necessário que o driver do mouse consuma ou gere dados para uma função específica do dispositivo através de endpoints, para isso ele tem que fazer uma ligação com o sistema USB(USB core), gerando um “interrupt request”(IRP), que é quando o software gera um sinal para movimentar dados entre o software e um endpoint. Por sua vez, o USB core faz uma chamada para o ‘’host controller driver’’(uma abstração do host controller) que por fim transformará os dados do IRP em transações, que são as entregas dos dados para um endpoint, que o Host controller usará para criar uma atividade a nível de barramento. O processo pode ser feito de maneira reversa.
 
 A imagem a seguir resume todos os conceitos já ditos até aqui:
