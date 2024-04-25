@@ -269,6 +269,43 @@ Para a atribuição das bibliotecas da intelfpgaup ao sistema, deve ser adiciona
 
 ## Resultados e demonstração dos testes
 
+- Situação de vitória no jogo:
+  
+  <p align="center"><strong>Gif exemplificando a verificação de vitória</strong></p>
+<p align="center">
+  <img src="Imagens/caso_vitoria.gif" width = "400" />
+</p>
+<p align="center"><strong>Fonte:Próprios Autores
+</strong></p>
+
+- Situação de empate no jogo:
+  
+  <p align="center"><strong>Gif exemplificando a verificação de empate</strong></p>
+<p align="center">
+  <img src="Imagens/caso_empate.gif" width = "400" />
+</p>
+<p align="center"><strong>Fonte:Próprios Autores
+</strong></p>
+
+- Situação de posição já ocupada no jogo:
+  
+  <p align="center"><strong>Gif exemplificando o caso de posição já escolhida pelo usuário</strong></p>
+<p align="center">
+  <img src="Imagens/caso_posicaoocupada.gif" width = "400" />
+</p>
+<p align="center"><strong>Fonte:Próprios Autores
+</strong></p>
+
+- Situação de pause no jogo:
+  
+  <p align="center"><strong>Gif exemplificando o caso de pause no jogo</strong></p>
+<p align="center">
+  <img src="Imagens/caso_pause.gif" width = "400" />
+</p>
+<p align="center"><strong>Fonte:Próprios Autores
+</strong></p>
+
+
 ## Conclusão
 
 ## Referências
