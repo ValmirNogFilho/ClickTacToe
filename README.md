@@ -108,7 +108,7 @@ Esse processo continua até que um jogador vença ou até que ocorram mais de 9 
   
   <p align="center"><strong>Camadas da conexão USB. </strong></p>
 <p align="center">
-  <img src="Imagens/conexao_usb_geral" width = "400" />
+  <img src="Imagens/conexao_usb_geral.png" width = "400" />
 </p>
 <p align="center"><strong>Fonte: Universal Serial Bus Specification Revision 2.0
 </strong></p>
