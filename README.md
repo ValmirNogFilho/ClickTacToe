@@ -58,7 +58,7 @@ Os dispositivos de entrada e saída conectados à plataforma De1-SoC podem ser a
 - Criação do tabuleiro:
   Para criar o tabuleiro do jogo da velha, foi utilizada uma matriz de caracteres de tamanho 3x3, onde cada célula foi numerada de 1 a 9. Essa abordagem foi implementada para facilitar a visualização do jogador e ajudá-lo a identificar a localização das células.
   
-<p align="center"><strong>Figura X representativa do tabuleiro do jogo da velha numerado. </strong></p>
+<p align="center"><strong>Figura representativa do tabuleiro do jogo da velha numerado. </strong></p>
 <p align="center">
   <img src="Imagens/tabuleiro_jogo.jpg" width = "400" />
 </p>
@@ -75,7 +75,7 @@ Verifica as linhas:
 <p align="center">
   <img src="Imagens/GifColuna.gif" width = "400" />
 </p>
-<p align="center"><strong>
+<p align="center"><strong>Próprios Autores
 </strong></p>
 
 - Verifica as coluas:
@@ -84,7 +84,7 @@ Verifica as linhas:
 <p align="center">
   <img src="Imagens/ColunaGif.gif" width = "400" />
 </p>
-<p align="center"><strong>
+<p align="center"><strong>Próprios Autores
 </strong></p>
 
 - Verifica as diagonais:
@@ -93,7 +93,7 @@ Verifica as linhas:
 <p align="center">
   <img src="Imagens/diagonalGif.gif" width = "400" />
 </p>
-<p align="center"><strong>
+<p align="center"><strong>Próprios Autores
 </strong></p>
 
 - Delimitação do tabuleiro:
