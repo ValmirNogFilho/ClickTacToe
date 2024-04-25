@@ -69,16 +69,32 @@ Os dispositivos de entrada e saída conectados à plataforma De1-SoC podem ser a
   Para determinar o vencedor, foi criada uma função que inspeciona o estado atual do tabuleiro e realiza três tipos de verificações: nas linhas, colunas e diagonais. Essa função examina todas as possibilidades de vitória e ao identificar uma sequência de 3 peças iguais em qualquer direção, declara que o jogo foi vencido. Abaixo pode-se ver como as verificações são feitas:
 Verifica as linhas:
 
-- Verifica as colunas:
+- Verifica as linhas:
   
-  <p align="center"><strong>Verifica colunas</strong></p>
+  <p align="center"><strong>Verifica linhas</strong></p>
 <p align="center">
   <img src="Imagens/GifColuna.gif" width = "400" />
 </p>
 <p align="center"><strong>
 </strong></p>
 
+- Verifica as coluas:
+
+  <p align="center"><strong>Verifica colunas</strong></p>
+<p align="center">
+  <img src="Imagens/ColunaGif.gif" width = "400" />
+</p>
+<p align="center"><strong>
+</strong></p>
+
 - Verifica as diagonais:
+  
+<p align="center"><strong>Verifica diagonais</strong></p>
+<p align="center">
+  <img src="Imagens/diagonalGif.gif" width = "400" />
+</p>
+<p align="center"><strong>
+</strong></p>
 
 - Delimitação do tabuleiro:
 
