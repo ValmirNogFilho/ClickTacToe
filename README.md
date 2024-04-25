@@ -34,9 +34,23 @@ Recebe majoritariamente instruções por palavras de comprimento de 32 bits.
 	
 A placa é composta pela porção FPGA, com o dispositivo Altera Cyclone® V SE 5CSEMA5F31C6N, e pela porção HPS, com o processador Cortex A9 e com memória RAM 1GB DDR3. Ambas porções também dispõem de diversos periféricos de entrada e saída de dados, cujo os utilizados serão futuramente explicitados nesse documento.
 
+<p align="center"><strong>Componentes da De1-Soc. Os que estão no quadrante cinza pertencem ao HPS, e os azuis, ao FPGA. </strong></p>
+<p align="center">
+  <img src="Imagens/componentes_de1soc.png" width = "400" />
+</p>
+<p align="center"><strong>Fonte: Manual do kit de desenvolvimento De1-SoC
+</strong></p>
+
 A comunicação dos componentes da FPGA com as instruções solicitadas pelo código C que são executadas no processador se dá pelas FPGA Bridges. O processador solicita ou envia dados para a FPGA por meio das pontes HPS-to-FPGA e lightweight HPS-to-FPGA (para dados de menor banda), realizando operações de leitura ou escrita ao consultar os elementos de memória da FPGA e, quando necessário, trazer os dados para a memória do HPS.
 
 Os dispositivos de entrada e saída conectados à plataforma De1-SoC podem ser acessados na memória, por serem mapeados em diretórios específicos (explicados na seção dos drivers), sendo acessíveis perante a permissão concedida pelo sistema operacional Linux.
+
+<p align="center"><strong>Dispositivos periféricos utilizados do kit de desenvolvimento De1-SoC</strong></p>
+<p align="center">
+  <img src="Imagens/perifericos_de1soc.png" width = "600" />
+</p>
+<p align="center"><strong>Fonte: manual do kit de desenvolvimento De1-SoC
+</strong></p>
 
 
 
@@ -91,10 +105,26 @@ Esse processo continua até que um jogador vença ou até que ocorram mais de 9 
 
 - Sobre o sistema geral do USB:
   Todo o processo de passagem dos dados USB pode ser divididos como mostrado a seguir, por camadas hardware-software:
+  
+  <p align="center"><strong>Camadas da conexão USB. </strong></p>
+<p align="center">
+  <img src="Imagens/conexao_usb_geral.png" width = "400" />
+</p>
+<p align="center"><strong>Fonte: Universal Serial Bus Specification Revision 2.0
+</strong></p>
+
 A primeira camada, de baixo para cima, é a camada física propriamente dita, ela que provê a conexão entre o host e o dispositivo. A camada do meio(abrigaria uma API do Linux, USB core por exemplo), é a camada onde os softwares que lidam com o USB  ficam, ela que vai lidar com operações genéricas no usb, como ler/escolher as melhores configurações host/device.
 A última camada, é a responsável pela função do dispositivo USB específico,se for um mouse, por exemplo, os cliques no dispositivo físico, seriam interpretados como dados pelo ‘’client software’’(que nesse contexto seria o driver do próprio mouse).
 
 - O fluxo de comunicação é o seguinte:
+  
+  <p align="center"><strong>Fluxo de dados USB. </strong></p>
+<p align="center">
+  <img src="Imagens/fluxo_dados_usb.png" width = "400" />
+</p>
+<p align="center"><strong>Fonte: Universal Serial Bus Specification Revision 2.0
+</strong></p>
+  
   O ‘’software client’’ (driver do mouse) geralmente solicita que seja movido os dados entre o buffer no lado do host e os endpoints nos dispositivos (dá-se o nome de pipe a essa relação). O ‘’host controller’’(a placa DE1SOC+sistema operacional) é quem inicia essa troca e gera atividade para movimento de dados. De maneira mais específica, o processo ocorre assim: para ocorrer uma transação a nível de barramento é necessário que o driver do mouse consuma ou gere dados para uma função específica do dispositivo através de endpoints, para isso ele tem que fazer uma ligação com o sistema USB(USB core), gerando um “interrupt request”(IRP), que é quando o software gera um sinal para movimentar dados entre o software e um endpoint. Por sua vez, o USB core faz uma chamada para o ‘’host controller driver’’(uma abstração do host controller) que por fim transformará os dados do IRP em transações, que são as entregas dos dados para um endpoint, que o Host controller usará para criar uma atividade a nível de barramento. O processo pode ser feito de maneira reversa.
 
 A imagem a seguir resume todos os conceitos já ditos até aqui:
@@ -109,14 +139,35 @@ Ao longo das atualizações do kernel, ocorreu a integração de um suporte para
              
 Dentro do Linux, há um subsistema responsável por reconhecer e operar dispositivos conectados ao USB, conhecido como "The USB Core", que opera com uma API dedicada para facilitar o suporte a dispositivos USB e controladores de host. Gerindo a função de fornecer uma camada de abstração que isola as particularidades de hardware ou dispositivos específicos, estabelecendo um conjunto padronizado de estruturas de dados, macros e funções, para interagir com o sistema operacional, seria a mesma ideia de responsabilidade que um drive teria. O núcleo USB consiste em conjuntos de instruções que são compartilhadas entre todos os drivers de dispositivos USB e os drivers de controlador de host. Essas instruções são estruturadas em duas camadas distintas dentro da API: uma camada superior e uma camada inferior. Na figura X é possível observar como ocorre essa estruturação no sistema operacional.
 
+<p align="center"><strong>Figura . </strong></p>
+<p align="center">
+  <img src="Imagens/usb_core_upper_lower_api.png" width = "400" />
+</p>
+<p align="center"><strong>Fonte: 
+</strong></p>
+
 - Subsistema de Entrada no Linux:
 O subsistema de entrada do Linux consiste em um conjunto de drivers que desempenham um papel fundamental no suporte aos dispositivos de entrada, como teclados, mouses e outros periféricos. Esses drivers atuam como mediadores entre o hardware e o sistema operacional, convertendo os sinais gerados pelos dispositivos em eventos compreensíveis para o sistema. Por exemplo, quando um usuário pressiona uma tecla ou movimenta o mouse, esses drivers capturam essas ações e as transmitem para o núcleo do sistema operacional. Em seguida, esses eventos são processados pelos aplicativos para realizar as operações correspondentes. Essa camada de abstração é fundamental para garantir a compatibilidade e a funcionalidade de uma ampla variedade de dispositivos de entrada no ambiente Linux, proporcionando uma experiência de usuário coesa e eficiente. Por meio dos arquivos relacionados aos dispositivos periféricos conectados via USB o subsistema de entrada do linux fornece uma interpretação para as informações que são passadas por meio destes, na figura X é possível perceber como seria a lógica de simplificação que ocorre entre o espaço do usuário, que seria propriamente os códigos feitos, o kernel do linux e as informações que são lidas, aquelas enviadas por meio do hardware conectado.
+
+<p align="center"><strong>Figura . </strong></p>
+<p align="center">
+  <img src="Imagens/kernel_vs_userspace.png" width = "400" />
+</p>
+<p align="center"><strong>Fonte: 
+</strong></p>
 
 - Driver no Mouse:
 Simplificadamente um driver seria um software que diz ao sistema operacional e a outros softwares como se comunicar com um hardware. O que está sendo utilizado para captar as informações do mouse via USB no problema é o que se chama de subsistema de entrada, que é um conjunto de drivers que oferecem um suporte para os dispositivos de entrada no linux. Esse conjunto de drivers basicamente conversam com o hardware e fornecem eventos (pressionamentos de teclas, movimentos do mouse, através da entrada USB) para o módulo de entrada. Como as informações recebidas através do mouse são inúmeros valores codificados em binário o drive vai funcionar como o meio responsável por capturar esses dados e designar diferentes ações que podem ser associadas a eles, possibilitando uma integração mais simples entre o hardware que o USB está conectado e o sistema operacional utilizado. 
 Como os drivers traduzem os sinais do mouse para comandos compreensíveis pelo sistema operacional.
 Os dados passados pelo mouse estão todos representados em valores binários, onde o conjunto de dados serão constantemente enviados pelo mouse para o sistema operacional, estes dados são passados por meio de um arquivo relacionado ao periférico conectado, por exemplo, é possível visualizar o conjunto de informações pelo próprio terminal do linux, inclusive escolhendo em que formato os dados serão visualizados, na figura X é possível perceber o arquivo correspondente ao mouse no terminal em formato hexadecimal.
 Os dados presentes nos arquivos de entrada do mouse desempenham um papel fundamental no sistema operacional, fornecendo informações para a interação entre o dispositivo e o computador. De acordo com a documentação do kernel e as definições em input.h, esses dados são estruturados em eventos, capturando cada movimento ou clique realizado. Cada evento é cuidadosamente organizado em uma estrutura específica, contendo detalhes como tempo, tipo, código e valor. Essa organização minuciosa permite que o sistema operacional interprete com precisão as ações do mouse, garantindo uma resposta rápida e eficiente às interações do usuário.
+
+<p align="center"><strong>Figura . </strong></p>
+<p align="center">
+  <img src="Imagens/dados_do_event.png" width = "400" />
+</p>
+<p align="center"><strong>Fonte: 
+</strong></p>
 
 - Acesso aos dispositivos específicos no Linux:
 No Linux, os dispositivos são arquivos no diretório /dev/ cada dispositivo está relacionado a um arquivo específico, quando se faz a conexão de um dispositivo um arquivo para o dispositivo é criado dinamicamente e pode ser acessado no diretório / dev/ isso é possível graças a um programa de espaço de usuário chamado udev, um gerenciador de dispositivos dinâmico para o kernel Linux. Sempre que um dispositivo é adicionado ou removido, o kernel comunica a mudança para o udev .Então, o udev escuta esses uevents do kernel. Para cada evento, systemd-udevd (o daemon udev ) executa instruções específicas definidas para lidar com cada dispositivo.
@@ -158,7 +209,14 @@ A biblioteca input.h no Linux é responsável por lidar com dispositivos de entr
 
 - Integração das chaves HH no sistema:
 
-Foi utilizada no sistema uma chave HH do kit de desenvolvimento De1-SoC para que o usuário possa pausar o jogo. Para realizar a leitura dos valores digitados nas chaves HH pertencentes ao kit de desenvolvimento De1-SoC, foram utilizados recursos disponibilizados da placa para o sistema operacional. A biblioteca intelfpgaup oferece acesso aos drivers dos dispositivos nativos da placa, informando em conjunto arquivos de extensão “.h” com os cabeçalhos das suas funções disponibilizadas e documentadas. Para fazer a inclusão da biblioteca, se insere no início do código C a expressão “#include <intelfpgaup/XX.h>, substituindo os X’s pelo nome do driver a ser acessado. 
+Foi utilizada no sistema uma chave HH do kit de desenvolvimento De1-SoC para que o usuário possa pausar o jogo. Para realizar a leitura dos valores digitados nas chaves HH pertencentes ao kit de desenvolvimento De1-SoC, foram utilizados recursos disponibilizados da placa para o sistema operacional. A biblioteca intelfpgaup oferece acesso aos drivers dos dispositivos nativos da placa, informando em conjunto arquivos de extensão “.h” com os cabeçalhos das suas funções disponibilizadas e documentadas. Para fazer a inclusão da biblioteca, se insere no início do código C a expressão “#include <intelfpgaup/XX.h>, substituindo os X’s pelo nome do driver a ser acessado.
+
+<p align="center"><strong>Tabela dos módulos disponibilizados pelo De1-SoC para o acesso dos dispositivos da placa.</strong></p>
+<p align="center">
+  <img src="Imagens/tabela_drivers_soc.png" width = "400" />
+</p>
+<p align="center"><strong>Fonte: LEDS-UEFS</strong></p>
+
 Para a leitura das chaves HH, foi incluído o driver “SW.h”. A biblioteca oferece funções de abertura, leitura e fechamento do arquivo relativo ao driver. A função de leitura retorna o número de bytes lidos e atribui ao ponteiro para int inserido como seu parâmetro um valor binário, que representa, do bit de menor ao de maior importância, as chaves HH da chave CH0 à CH9 (as 10 chaves HH da De1-SoC). Chaves HH em alto são representadas com o valor 1, e as baixas em 0.
 
 <p align="center"><strong>Cabeçalho das funções do módulo SW da intelfpgaup</strong></p>
