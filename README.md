@@ -172,21 +172,21 @@ Ao longo das atualizações do kernel, ocorreu a integração de um suporte para
              
 Dentro do Linux, há um subsistema responsável por reconhecer e operar dispositivos conectados ao USB, conhecido como "The USB Core", que opera com uma API dedicada para facilitar o suporte a dispositivos USB e controladores de host. Gerindo a função de fornecer uma camada de abstração que isola as particularidades de hardware ou dispositivos específicos, estabelecendo um conjunto padronizado de estruturas de dados, macros e funções, para interagir com o sistema operacional, seria a mesma ideia de responsabilidade que um drive teria. O núcleo USB consiste em conjuntos de instruções que são compartilhadas entre todos os drivers de dispositivos USB e os drivers de controlador de host. Essas instruções são estruturadas em duas camadas distintas dentro da API: uma camada superior e uma camada inferior. Na figura X é possível observar como ocorre essa estruturação no sistema operacional.
 
-<p align="center"><strong>Figura . </strong></p>
+<p align="center"><strong>Camadas de API núcleo USB </strong></p>
 <p align="center">
   <img src="Imagens/usb_core_upper_lower_api.png" width = "400" />
 </p>
-<p align="center"><strong>Fonte: 
+<p align="center"><strong>Fonte: usb linux programming guide.
 </strong></p>
 
 - Subsistema de Entrada no Linux:
 O subsistema de entrada do Linux consiste em um conjunto de drivers que desempenham um papel fundamental no suporte aos dispositivos de entrada, como teclados, mouses e outros periféricos. Esses drivers atuam como mediadores entre o hardware e o sistema operacional, convertendo os sinais gerados pelos dispositivos em eventos compreensíveis para o sistema. Por exemplo, quando um usuário pressiona uma tecla ou movimenta o mouse, esses drivers capturam essas ações e as transmitem para o núcleo do sistema operacional. Em seguida, esses eventos são processados pelos aplicativos para realizar as operações correspondentes. Essa camada de abstração é fundamental para garantir a compatibilidade e a funcionalidade de uma ampla variedade de dispositivos de entrada no ambiente Linux, proporcionando uma experiência de usuário coesa e eficiente. Por meio dos arquivos relacionados aos dispositivos periféricos conectados via USB o subsistema de entrada do linux fornece uma interpretação para as informações que são passadas por meio destes, na figura X é possível perceber como seria a lógica de simplificação que ocorre entre o espaço do usuário, que seria propriamente os códigos feitos, o kernel do linux e as informações que são lidas, aquelas enviadas por meio do hardware conectado.
 
-<p align="center"><strong>Figura . </strong></p>
+<p align="center"><strong>Interação do kernel e o espaço do usuário. </strong></p>
 <p align="center">
   <img src="Imagens/kernel_vs_userspace.png" width = "400" />
 </p>
-<p align="center"><strong>Fonte: 
+<p align="center"><strong>Fonte: EmbeTronicX(2023).
 </strong></p>
 
 - Driver no Mouse:
@@ -195,11 +195,11 @@ Como os drivers traduzem os sinais do mouse para comandos compreensíveis pelo s
 Os dados passados pelo mouse estão todos representados em valores binários, onde o conjunto de dados serão constantemente enviados pelo mouse para o sistema operacional, estes dados são passados por meio de um arquivo relacionado ao periférico conectado, por exemplo, é possível visualizar o conjunto de informações pelo próprio terminal do linux, inclusive escolhendo em que formato os dados serão visualizados, na figura X é possível perceber o arquivo correspondente ao mouse no terminal em formato hexadecimal.
 Os dados presentes nos arquivos de entrada do mouse desempenham um papel fundamental no sistema operacional, fornecendo informações para a interação entre o dispositivo e o computador. De acordo com a documentação do kernel e as definições em input.h, esses dados são estruturados em eventos, capturando cada movimento ou clique realizado. Cada evento é cuidadosamente organizado em uma estrutura específica, contendo detalhes como tempo, tipo, código e valor. Essa organização minuciosa permite que o sistema operacional interprete com precisão as ações do mouse, garantindo uma resposta rápida e eficiente às interações do usuário.
 
-<p align="center"><strong>Figura . </strong></p>
+<p align="center"><strong>Arquivo correspondente ao mouse no terminal. </strong></p>
 <p align="center">
   <img src="Imagens/dados_do_event.png" width = "400" />
 </p>
-<p align="center"><strong>Fonte: 
+<p align="center"><strong>Fonte: Próprios autores.
 </strong></p>
 
 - Acesso aos dispositivos específicos no Linux:
@@ -272,3 +272,4 @@ Para a atribuição das bibliotecas da intelfpgaup ao sistema, deve ser adiciona
 ## Conclusão
 
 ## Referências
+https://embetronicx.com/linux-device-driver-tutorials/
