@@ -36,7 +36,7 @@ A placa é composta pela porção FPGA, com o dispositivo Altera Cyclone® V SE 
 
 <p align="center"><strong>Dispositivos periféricos utilizados do kit de desenvolvimento De1-SoC</strong></p>
 <p align="center">
-  <img src="Imagens/perifericos_de1soc.png" width = "400" />
+  <img src="Imagens/perifericos_de1soc.png" width = "600" />
 </p>
 <p align="center"><strong>Fonte: manual do kit de desenvolvimento De1-SoC
 </strong></p>
