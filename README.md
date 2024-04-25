@@ -71,29 +71,29 @@ Verifica as linhas:
 
 - Verifica as linhas:
   
-  <p align="center"><strong>Verifica linhas</strong></p>
+  <p align="center"><strong>Gif exemplificando a verificação de linhas</strong></p>
 <p align="center">
   <img src="Imagens/GifColuna.gif" width = "400" />
 </p>
-<p align="center"><strong>Próprios Autores
+<p align="center"><strong>Fonte:Próprios Autores
 </strong></p>
 
 - Verifica as coluas:
 
-  <p align="center"><strong>Verifica colunas</strong></p>
+  <p align="center"><strong>Gif exemplificando a verificação de colunas</strong></p>
 <p align="center">
   <img src="Imagens/ColunaGif.gif" width = "400" />
 </p>
-<p align="center"><strong>Próprios Autores
+<p align="center"><strong>Fonte:Próprios Autores
 </strong></p>
 
 - Verifica as diagonais:
   
-<p align="center"><strong>Verifica diagonais</strong></p>
+<p align="center"><strong>Gif exemplificando a verificação de diagonais</strong></p>
 <p align="center">
   <img src="Imagens/diagonalGif.gif" width = "400" />
 </p>
-<p align="center"><strong>Próprios Autores
+<p align="center"><strong>Fonte:Próprios Autores
 </strong></p>
 
 - Delimitação do tabuleiro:
