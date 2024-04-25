@@ -70,6 +70,13 @@ Os dispositivos de entrada e saída conectados à plataforma De1-SoC podem ser a
 Verifica as linhas:
 
 - Verifica as colunas:
+  
+  <p align="center"><strong>Verifica colunas</strong></p>
+<p align="center">
+  <img src="Imagens/GifColuna.gif" width = "400" />
+</p>
+<p align="center"><strong>
+</strong></p>
 
 - Verifica as diagonais:
 
