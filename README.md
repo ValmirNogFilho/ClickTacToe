@@ -176,11 +176,31 @@ A última camada, é a responsável pela função do dispositivo USB específico
 
 O Sistema de Processador Rígido(HPS), é um elemento fundamental nos projetos que possuem o tipo System on Chip(SoC), pois desempenha a integração de várias funções no mesmo chip. No HPS tem-se a combinação de elementos que são de propósito geral que possuem periféricos específicos, como exemplo as interfaces de memória, controladores e interfaces de comunicação. Dados esses elementos é possível que o HPS realize tarefas mais complexas, como gerenciar a memória, controlar os periféricos e fazer a comunicação com outros dispositivos externos. Na imagem abaixo segue o diagrama em blocos do HPS presente na DE1-SoC.
 
+<p align="center"><strong>Diagrama em bloco do HPS</strong></p>
+<p align="center">
+  <img src="Imagens/diagrama_blocohps.png" width = "400" />
+</p>
+<p align="center"><strong>Fonte:Cyclone V Device Handbook. Volume 3: Hard Processor System Technical Reference Manual
+</strong></p>
+
 O USB OTG não têm a capacidade de conduzir os sinais de cache e buffering diretamente, para isso é necessário utilizar o DMA controller, este controlador DMA é usado para transferir dados entre memória, periféricos e outros locais de memória no sistema, por ele possuir acesso ao barramento do sistema, possibilita o acesso a vários registradores que podem ser lidos ou escritos na CPU, os quais possuem registrador de endereço de memória, registrador de controle e registrador de contador de bytes. É possível perceber como a memória tem uma relação de “ida e volta” com o barramento de dados através do esquema apresentado na disciplina teórica logo abaixo:
+
+<p align="center"><strong>Esquema de conexeção dos barramentos</strong></p>
+<p align="center">
+  <img src="Imagens/esquema_conexao.png" width = "400" />
+</p>
+<p align="center"><strong>Fonte:Computer organization and design (SLIDES)
+</strong></p>
 
 O fluxo de movimentação lógica dos dados seria:
 O DMA envia a informação para o L3 interconect que através do L3 Slave peripheral switch faz a comunicação com o periférico conectado ao USB OTG, permitindo que seja possível mover os dados do controlador para a memória externa (em relação ao controlador), que posteriormente, por instruções do driver, será lida pelo processador, tratadas e retornadas para o driver. Na imagem abaixo é possível visualizar a lógica associada ao processo de entrada e saída de dados passando pela memória e pelo processador.
 
+<p align="center">Organização do computador<strong></strong></p>
+<p align="center">
+  <img src="Imagens/caminho_dos_dados.png" width = "400" />
+</p>
+<p align="center"><strong>Fonte:Computer organization and design
+</strong></p>
 
 ### Funcionamento do Mouse:
 O kit de desenvolvimento fornece interfaces host USB 2.0 de 2 portas usando o controlador SMSC USB3300 e 2 portas controlador de hub, por meio de uma dessas portas que será conectada ao mouse para atender a necessidade do projeto. A princípio é importante trazer à tona alguns conceitos que são fundamentais para melhor entendimento de como se dá esta conexão USB. A definição de interfaces Host será o elemento inicial abordado para entendimento.
