@@ -254,7 +254,7 @@ A biblioteca input.h no Linux é responsável por lidar com dispositivos de entr
 
 - Integração das chaves HH no sistema:
 
-Foi utilizada no sistema uma chave HH do kit de desenvolvimento De1-SoC para que o usuário possa pausar o jogo. Para realizar a leitura dos valores digitados nas chaves HH pertencentes ao kit de desenvolvimento De1-SoC, foram utilizados recursos disponibilizados da placa para o sistema operacional. A biblioteca intelfpgaup oferece acesso aos drivers dos dispositivos nativos da placa, informando em conjunto arquivos de extensão “.h” com os cabeçalhos das suas funções disponibilizadas e documentadas. Para fazer a inclusão da biblioteca, se insere no início do código C a expressão “#include <intelfpgaup/XX.h>, substituindo os X’s pelo nome do driver a ser acessado.
+Foi utilizada no sistema uma chave HH do kit de desenvolvimento De1-SoC para que o usuário possa pausar o jogo. Para realizar a leitura dos valores digitados nas chaves HH pertencentes ao kit de desenvolvimento De1-SoC, foram utilizados recursos disponibilizados da placa para o sistema operacional. A biblioteca intelfpgaup oferece acesso aos drivers dos dispositivos nativos da placa, informando em conjunto arquivos de extensão “.h” com os cabeçalhos das suas funções disponibilizadas e documentadas. Para fazer a inclusão da biblioteca, se insere no início do código C a expressão `#include <intelfpgaup/XX.h>`, substituindo os X’s pelo nome do driver a ser acessado.
 
 <p align="center"><strong>Tabela dos módulos disponibilizados pelo De1-SoC para o acesso dos dispositivos da placa.</strong></p>
 <p align="center">
@@ -270,7 +270,7 @@ Para a leitura das chaves HH, foi incluído o driver “SW.h”. A biblioteca of
 </p>
 <p align="center"><strong>Fonte: Using Linux With ARM-A9</strong></p>
 
-Para a atribuição das bibliotecas da intelfpgaup ao sistema, deve ser adicionada uma instrução ao comando de compilação presente no Makefile. Ao final do comando, é adicionada a cflag “-intelfpgaup” para que o linker do GCC anexe as bibliotecas solicitadas ao projeto.
+Para a atribuição das bibliotecas da intelfpgaup ao sistema, deve ser adicionada uma instrução ao comando de compilação presente no Makefile. Ao final do comando, é adicionada a cflag `-lintelfpgaup` para que o linker do GCC anexe as bibliotecas solicitadas ao projeto.
 
 ## Resultados e conclusão
 
@@ -322,7 +322,6 @@ https://github.com/fpgacademy/Tutorials/releases/download/v21.1/Linux_with_ARM_A
 
 https://www.kernel.org/doc/html/v4.18/input/input.html
 
-Intel® FPGA University Program DE1-SoC Computer Manual
 https://www.terasic.com.tw/cgi-bin/page/archive_download.pl?Language=English&No=836&FID=ae336c1d5103cac046279ed1568a8bc3
 
 https://sites.google.com/uefs.br/ltec3-leds/recursos
