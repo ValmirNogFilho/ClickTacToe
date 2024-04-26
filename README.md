@@ -317,3 +317,14 @@ Segue abaixo alguns gifs correspondentes a testes feitos:
 
 ## Referências
 https://embetronicx.com/linux-device-driver-tutorials/
+
+https://github.com/fpgacademy/Tutorials/releases/download/v21.1/Linux_with_ARM_A9.pdf
+
+https://www.kernel.org/doc/html/v4.18/input/input.html
+
+Intel® FPGA University Program DE1-SoC Computer Manual
+https://www.terasic.com.tw/cgi-bin/page/archive_download.pl?Language=English&No=836&FID=ae336c1d5103cac046279ed1568a8bc3
+
+https://sites.google.com/uefs.br/ltec3-leds/recursos
+
+
