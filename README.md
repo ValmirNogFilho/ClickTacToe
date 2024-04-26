@@ -10,18 +10,21 @@ O projeto visa a criação de um sistema de uma versão do jogo da velha, integr
 
 ## Descrição dos equipamentos e softwares utilizados:
 
-- kit de desenvolvimento de1-soc:
+* kit de desenvolvimento de1-soc:
 
-O kit de desenvolvimento De1-SoC, da Altera University Program, é uma plataforma programável que combina uma FPGA System on Chip (SoC) da Altera com um processador dual-core Cortex A9 e os periféricos que envolvem a porção do Hard Processor System (HPS), sendo ideal para a prototipação de projetos que envolvam a integração entre software e hardware, dada a sua flexibilidade e seu alto desempenho. Devido a essa aplicabilidade, foi utilizado para o projeto.
+	O kit de desenvolvimento De1-SoC, da Altera University Program, é uma plataforma programável que combina uma FPGA System on Chip (SoC) da Altera com um processador dual-core Cortex A9 e os periféricos que envolvem a porção do Hard Processor System (HPS), sendo ideal para a prototipação de projetos que envolvam a integração entre software e hardware, dada a sua flexibilidade e seu alto desempenho. Devido a essa aplicabilidade, foi utilizado para o projeto.
 
 * Nano
-O GNU Nano trata-se de um editor de texto simples, incluso nativamente em sistemas operacionais Linux e que é executado no terminal de comandos do sistema operacional. Foi um dos softwares de edição de texto utilizados para a codificação do projeto.
+  
+	O GNU Nano trata-se de um editor de texto simples, incluso nativamente em sistemas operacionais Linux e que é executado no terminal de comandos do sistema operacional. Foi um dos softwares de edição de texto utilizados para a codificação do projeto.
 
 * Replit
-O Replit é um ambiente de desenvolvimento online que permite a edição de textos em conjunto com colegas de trabalho simultaneamente. Permite a codificação dos arquivos e a execução dos códigos no shell incluso na plataforma. Foi utilizado para criação e armazenamento de protótipos do projeto, auxiliando o trabalho em grupo.
+  
+	O Replit é um ambiente de desenvolvimento online que permite a edição de textos em conjunto com colegas de trabalho simultaneamente. Permite a codificação dos arquivos e a execução dos códigos no shell incluso na plataforma. Foi utilizado para criação e armazenamento de protótipos do projeto, auxiliando o trabalho em grupo.
 
 * Linguagem C
-A linguagem escolhida para a codificação do projeto foi C, devido a sua portabilidade para computadores que não possuam recursos tecnológicos avançados o suficiente para softwares mais pesados. Além disso, seu nível de abstração mais próximo da máquina e suas bibliotecas-padrão que auxiliam a interação com o sistema operacional, agem em conjunto para tornar mais prática a manipulação dos drivers dos dispositivos usados no sistema.
+  
+	A linguagem escolhida para a codificação do projeto foi C, devido a sua portabilidade para computadores que não possuam recursos tecnológicos avançados o suficiente para softwares mais pesados. Além disso, seu nível de abstração mais próximo da máquina e suas bibliotecas-padrão que auxiliam a interação com o sistema operacional, agem em conjunto para tornar mais prática a manipulação dos drivers dos dispositivos usados no sistema.
 
 * Compilador GCC
 
@@ -193,7 +196,7 @@ O subsistema de entrada do Linux consiste em um conjunto de drivers que desempen
 Simplificadamente um driver seria um software que diz ao sistema operacional e a outros softwares como se comunicar com um hardware. O que está sendo utilizado para captar as informações do mouse via USB no problema é o que se chama de subsistema de entrada, que é um conjunto de drivers que oferecem um suporte para os dispositivos de entrada no linux. Esse conjunto de drivers basicamente conversam com o hardware e fornecem eventos (pressionamentos de teclas, movimentos do mouse, através da entrada USB) para o módulo de entrada. Como as informações recebidas através do mouse são inúmeros valores codificados em binário o drive vai funcionar como o meio responsável por capturar esses dados e designar diferentes ações que podem ser associadas a eles, possibilitando uma integração mais simples entre o hardware que o USB está conectado e o sistema operacional utilizado. 
 Como os drivers traduzem os sinais do mouse para comandos compreensíveis pelo sistema operacional.
 Os dados passados pelo mouse estão todos representados em valores binários, onde o conjunto de dados serão constantemente enviados pelo mouse para o sistema operacional, estes dados são passados por meio de um arquivo relacionado ao periférico conectado, por exemplo, é possível visualizar o conjunto de informações pelo próprio terminal do linux, inclusive escolhendo em que formato os dados serão visualizados, na figura abaixo é possível perceber o arquivo correspondente ao mouse no terminal em formato hexadecimal.
-Os dados presentes nos arquivos de entrada do mouse desempenham um papel fundamental no sistema operacional, fornecendo informações para a interação entre o dispositivo e o computador. De acordo com a documentação do kernel e as definições em input.h, esses dados são estruturados em eventos, capturando cada movimento ou clique realizado. Cada evento é cuidadosamente organizado em uma estrutura específica, contendo detalhes como tempo, tipo, código e valor. Essa organização minuciosa permite que o sistema operacional interprete com precisão as ações do mouse, garantindo uma resposta rápida e eficiente às interações do usuário.
+Os dados presentes nos arquivos de entrada do mouse desempenham um papel fundamental no sistema operacional, fornecendo informações para a interação entre o dispositivo e o computador. De acordo com a documentação do kernel e as definições em input.h, esses dados são estruturados em eventos, capturando cada movimento ou clique realizado. Cada evento é cuidadosamente organizado em uma estrutura específica, contendo detalhes como tempo, tipo, código e valor. Essa organização minunciosa permite que o sistema operacional interprete com precisão as ações do mouse, garantindo uma resposta rápida e eficiente às interações do usuário.
 
 <p align="center"><strong>Arquivo correspondente ao mouse no terminal. </strong></p>
 <p align="center">
