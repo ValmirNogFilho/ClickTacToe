@@ -146,7 +146,7 @@ Esse processo continua até que um jogador vença ou até que ocorram mais de 9 
 ## Conexão USB (Hardware/Software)
 
 - Sobre a configuração de um dispositivo-host:
-  Quando um dispositivo usb é conectado num host, esse host irá enviar ‘’setup requests’’ para o dispositivo, o dispositivo reporta os atributos deles, através de descritores, e o host, através do processo de ‘’bus enumeration’’ configura o dispositivo com base na leitura de seus descritores. No caso da passagem de dados do mouse para o host, são usados endpoints (parte física de um dispositivo que transmite dados) do tipo interrupt nas transações de dados. Esses Endpoints interrupts são monitorados periodicamente pelo host e foram escolhidos pois os dados são enviados regularmente, sendo o que melhor se encaixa no contexto mouse-host.
+  Quando um dispositivo usb é conectado num host, esse host irá enviar ‘’setup requests’’ para o dispositivo, o dispositivo reporta os atributos deles, através de descritores, e o host, através do processo de ‘’bus enumeration’’ configura o dispositivo com base na leitura de seus descritores. No caso da passagem de dados do mouse para o host, são usados endpoints (parte física de um dispositivo que transmite dados) do tipo interrupt nas transações de dados. Esses Endpoints interrupts são monitorados periodicamente pelo host e foram escolhidos pois os dados são enviados regularmente e de maneira rápida, sendo o que melhor se encaixa no contexto mouse-host.
 
 - Sobre o sistema geral do USB:
   Todo o processo de passagem dos dados USB pode ser divididos como mostrado a seguir, por camadas hardware-software:
