@@ -137,7 +137,7 @@ Esse processo continua até que um jogador vença ou até que ocorram mais de 9 
 -Fluxograma:
 <p align="center"><strong>Fluxograma do código</strong></p>
 <p align="center">
-  <img src="Imagens/limite_tabuleiro.jpg" width = "400" />
+  <img src="Imagens/fluxograma.drawio.png" width = "600" />
 </p>
 <p align="center"><strong>Fonte: Próprios Autores 
 </strong></p>
