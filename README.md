@@ -185,7 +185,7 @@ O Sistema de Processador Rígido(HPS), é um elemento fundamental nos projetos q
 
 O USB OTG não têm a capacidade de conduzir os sinais de cache e buffering diretamente, para isso é necessário utilizar o DMA controller, este controlador DMA é usado para transferir dados entre memória, periféricos e outros locais de memória no sistema, por ele possuir acesso ao barramento do sistema, possibilita o acesso a vários registradores que podem ser lidos ou escritos na CPU, os quais possuem registrador de endereço de memória, registrador de controle e registrador de contador de bytes. É possível perceber como a memória tem uma relação de “ida e volta” com o barramento de dados através do esquema apresentado na disciplina teórica logo abaixo:
 
-<p align="center"><strong>Esquema de conexeção dos barramentos</strong></p>
+<p align="center"><strong>Esquema de conexão dos barramentos</strong></p>
 <p align="center">
   <img src="Imagens/esquema_conexao.png" width = "400" />
 </p>
