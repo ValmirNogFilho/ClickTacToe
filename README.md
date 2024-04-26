@@ -193,7 +193,7 @@ O USB OTG não têm a capacidade de conduzir os sinais de cache e buffering dire
 </strong></p>
 
 O fluxo de movimentação lógica dos dados seria:
-O DMA envia a informação para o L3 interconect que através do L3 Slave peripheral switch faz a comunicação com o periférico conectado ao USB OTG, permitindo que seja possível mover os dados do controlador para a memória externa (em relação ao controlador), que posteriormente, por instruções do driver, será lida pelo processador, tratadas e retornadas para o driver. Na imagem abaixo é possível visualizar a lógica associada ao processo de entrada e saída de dados passando pela memória e pelo processador.
+O DMA envia a informação para o L3 interconect que através do L3 Slave peripheral switch faz a comunicação com o controlador do USB OTG, permitindo que seja possível mover os dados do controlador para a memória externa (em relação ao controlador), que posteriormente, por instruções do driver, será lida pelo processador, tratadas e retornadas para o driver. Na imagem abaixo é possível visualizar a lógica associada ao processo de entrada e saída de dados passando pela memória e pelo processador.
 
 <p align="center">Organização do computador<strong></strong></p>
 <p align="center">
