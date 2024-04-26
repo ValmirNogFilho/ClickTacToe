@@ -129,10 +129,19 @@ Após a abertura do arquivo, ocorre uma leitura contínua dos dados do dispositi
 Com base nos dados contidos na estrutura `struct input_event`, o programa pode facilmente extrair informações relevantes, como o deslocamento do mouse nas coordenadas x e y.
 
 - Dinâmica do jogo no código:
-  O jogo começa com o primeiro jogador, representado pelo "X", e é controlado usando variáveis que capturam o deslocamento do mouse. Esse deslocamento é adicionado às variáveis relacionadas às coordenadas x e y. Essas coordenadas são restritas a valores entre 0 e 300 para garantir que não ultrapassem os limites do tabuleiro, conforme visto na seção de Delimitação do tabuleiro.
+  O jogo começa com o primeiro jogador, representado pelo "X", e é controlado usando variáveis que capturam o deslocamento do mouse. Esse deslocamento é adicionado às variáveis relacionadas às coordenadas SomaX e SomaY. Essas coordenadas são restritas a valores entre 0 e 300 para garantir que não ultrapassem os limites do tabuleiro, conforme visto na seção de Delimitação do tabuleiro.
 Em seguida, uma série de verificações são realizadas. Primeiro, verifica-se se as coordenadas estão dentro dos limites do tabuleiro. Em seguida, as coordenadas x e y capturadas pelo movimento do mouse são convertidas na célula correspondente do tabuleiro.
 A segunda parte das verificações ocorre quando há um evento de clique esquerdo do mouse. Nesse momento, verifica-se se a célula está vazia para que a peça do jogador possa ser colocada. Se a célula já estiver ocupada, a peça do jogador não será inserida. No entanto, se a célula estiver vazia, ela será preenchida com a peça do jogador atual. Após isso, é feita uma verificação para determinar se o jogador venceu o jogo. Se o jogador venceu, uma mensagem de parabéns é exibida para o vencedor; caso contrário, é a vez do próximo jogador.
 Esse processo continua até que um jogador vença ou até que ocorram mais de 9 jogadas, momento em que o jogo termina. Se não houver vencedor, uma mensagem de empate é exibida.
+
+-Fluxograma:
+<p align="center"><strong>Fluxograma do código</strong></p>
+<p align="center">
+  <img src="Imagens/limite_tabuleiro.jpg" width = "400" />
+</p>
+<p align="center"><strong>Fonte: Próprios Autores 
+</strong></p>
+
 
 ## Conexão USB (Hardware/Software)
 
