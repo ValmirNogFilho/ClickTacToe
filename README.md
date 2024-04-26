@@ -146,7 +146,7 @@ Esse processo continua até que um jogador vença ou até que ocorram mais de 9 
 ## Conexão USB (Hardware/Software)
 
 - Sobre a configuração de um dispositivo-host:
-  Quando um dispositivo usb é conectado num host, esse host irá enviar ‘’setup requests’’ para o dispositivo, o dispositivo reporta os atributos deles, através de descritores, e o host, através do processo de ‘’bus enumeration’’ configura o dispositivo com base na leitura de seus descritores (pelo endpoint 0). No caso da passagem de dados do mouse para o host, são usados endpoints (parte física de um dispositivo que transmite dados) do tipo interrupt nas transações de dados. Esses Endpoints interrupts são monitorados periodicamente pelo host e foram escolhidos pois os dados são enviados regularmente, sendo o que melhor se encaixa no contexto mouse-host.
+  Quando um dispositivo usb é conectado num host, esse host irá enviar ‘’setup requests’’ para o dispositivo, o dispositivo reporta os atributos deles, através de descritores, e o host, através do processo de ‘’bus enumeration’’ configura o dispositivo com base na leitura de seus descritores. No caso da passagem de dados do mouse para o host, são usados endpoints (parte física de um dispositivo que transmite dados) do tipo interrupt nas transações de dados. Esses Endpoints interrupts são monitorados periodicamente pelo host e foram escolhidos pois os dados são enviados regularmente, sendo o que melhor se encaixa no contexto mouse-host.
 
 - Sobre o sistema geral do USB:
   Todo o processo de passagem dos dados USB pode ser divididos como mostrado a seguir, por camadas hardware-software:
@@ -172,7 +172,15 @@ A última camada, é a responsável pela função do dispositivo USB específico
   
   O ‘’software client’’ (driver do mouse) geralmente solicita que seja movido os dados entre o buffer no lado do host e os endpoints nos dispositivos (dá-se o nome de pipe a essa relação). O ‘’host controller’’(a placa DE1SOC+sistema operacional) é quem inicia essa troca e gera atividade para movimento de dados. De maneira mais específica, o processo ocorre assim: para ocorrer uma transação a nível de barramento é necessário que o driver do mouse consuma ou gere dados para uma função específica do dispositivo através de endpoints, para isso ele tem que fazer uma ligação com o sistema USB(USB core), gerando um “interrupt request”(IRP), que é quando o software gera um sinal para movimentar dados entre o software e um endpoint. Por sua vez, o USB core faz uma chamada para o ‘’host controller driver’’(uma abstração do host controller) que por fim transformará os dados do IRP em transações, que são as entregas dos dados para um endpoint, que o Host controller usará para criar uma atividade a nível de barramento. O processo pode ser feito de maneira reversa.
 
-A imagem a seguir resume todos os conceitos já ditos até aqui:
+- Fluxo de comunicação na visão do hardware
+
+O Sistema de Processador Rígido(HPS), é um elemento fundamental nos projetos que possuem o tipo System on Chip(SoC), pois desempenha a integração de várias funções no mesmo chip. No HPS tem-se a combinação de elementos que são de propósito geral que possuem periféricos específicos, como exemplo as interfaces de memória, controladores e interfaces de comunicação. Dados esses elementos é possível que o HPS realize tarefas mais complexas, como gerenciar a memória, controlar os periféricos e fazer a comunicação com outros dispositivos externos. Na imagem abaixo segue o diagrama em blocos do HPS presente na DE1-SoC.
+
+O USB OTG não têm a capacidade de conduzir os sinais de cache e buffering diretamente, para isso é necessário utilizar o DMA controller, este controlador DMA é usado para transferir dados entre memória, periféricos e outros locais de memória no sistema, por ele possuir acesso ao barramento do sistema, possibilita o acesso a vários registradores que podem ser lidos ou escritos na CPU, os quais possuem registrador de endereço de memória, registrador de controle e registrador de contador de bytes. É possível perceber como a memória tem uma relação de “ida e volta” com o barramento de dados através do esquema apresentado na disciplina teórica logo abaixo:
+
+O fluxo de movimentação lógica dos dados seria:
+O DMA envia a informação para o L3 interconect que através do L3 Slave peripheral switch faz a comunicação com o periférico conectado ao USB OTG, permitindo que seja possível mover os dados do controlador para a memória externa (em relação ao controlador), que posteriormente, por instruções do driver, será lida pelo processador, tratadas e retornadas para o driver. Na imagem abaixo é possível visualizar a lógica associada ao processo de entrada e saída de dados passando pela memória e pelo processador.
+
 
 ### Funcionamento do Mouse:
 O kit de desenvolvimento fornece interfaces host USB 2.0 de 2 portas usando o controlador SMSC USB3300 e 2 portas controlador de hub, por meio de uma dessas portas que será conectada ao mouse para atender a necessidade do projeto. A princípio é importante trazer à tona alguns conceitos que são fundamentais para melhor entendimento de como se dá esta conexão USB. A definição de interfaces Host será o elemento inicial abordado para entendimento.
@@ -325,6 +333,7 @@ Segue abaixo alguns gifs correspondentes a testes feitos:
 
 
 ## Referências
+Sites:
 https://embetronicx.com/linux-device-driver-tutorials/
 
 https://github.com/fpgacademy/Tutorials/releases/download/v21.1/Linux_with_ARM_A9.pdf
@@ -335,4 +344,16 @@ https://www.terasic.com.tw/cgi-bin/page/archive_download.pl?Language=English&No=
 
 https://sites.google.com/uefs.br/ltec3-leds/recursos
 
+Documentos:
+Universal Serial Bus Specification Revision 2.0
+
+Cyclone V Device Handbook. Volume 3: Hard Processor System Technical Reference Manual
+
+
+## Autores
+
+- Fábio Santos Miranda
+- Ícaro José Batista de Oliveira
+- Nalbert Santos Araujo
+- Valmir Alves Nogueira Filho
 
